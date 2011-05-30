@@ -3,7 +3,7 @@ django-uslug
 
 A custom Unified Slug app for Django, that guarantees uniqueness.
 
-Most code is originally by snippet http://www.djangosnippets.org/snippets/369/
+Most of the code is originally by snippet http://www.djangosnippets.org/snippets/369/
 Improved slightly to handle unique slugs and unicode chars and packaged by Val L33.
 
 Patches welcome: http://github.com/un33k/django-uslug
@@ -18,13 +18,15 @@ Here what you need to do:
         
 1. Stick ``"uslug"`` in ``INSTALLED_APPS``, and then in your templates do::
    
-Then just it in like:: from uslug import uSlug
+Then import it:: from uslug import uSlug
             
 That's it.
 
 Test Example
 =====
 
+        from uslug import uSlug
+        
         s = "This is a test ---"
         r = uSlug(s)
         self.assertEquals(r, "this-is-a-test")
