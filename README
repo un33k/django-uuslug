@@ -1,0 +1,52 @@
+django-uslug
+================
+
+A custom Unified Slug app for Django, that guarantees uniqueness.
+
+Most code is originally by snippet http://www.djangosnippets.org/snippets/369/
+Improved slightly to handle unique slugs and unicode chars and packaged by Val L33.
+
+Patches welcome: http://github.com/un33k/django-uslug
+
+Usage
+=====
+
+If you want a worry free slug-er, then this is for you.
+It handles unicode and it produces unique slugs.
+
+Here what you need to do:
+        
+1. Stick ``"uslug"`` in ``INSTALLED_APPS``, and then in your templates do::
+   
+Then just it in like:: from uslug import uSlug
+            
+That's it.
+
+Test Example
+=====
+
+        s = "This is a test ---"
+        r = uSlug(s)
+        self.assertEquals(r, "this-is-a-test")
+
+        s = 'C\'est déjà l\'été.'
+        r = uSlug(s)
+        self.assertEquals(r, "c-est-deja-l-ete")
+        
+        s = 'Nín hǎo. Wǒ shì zhōng guó rén'
+        r = uSlug(s)
+        self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
+
+        s = '影師嗎'
+        r = uSlug(s)
+        self.assertEquals(r, "ying-shi-ma")     
+        
+
+ToDo
+=====
+add templatetags
+add testcase for templatetags
+add fixture to test uslug on objects
+
+
+
