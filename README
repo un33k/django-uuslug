@@ -1,7 +1,7 @@
 django-uslug
 ================
 
-A custom Unified Slug app for Django, that guarantees uniqueness.
+A custom slug app for Django, that guarantees Double(u) for (Uniqueness & Unicode handling)
 
 Most of the code is originally by snippet http://www.djangosnippets.org/snippets/369/
 Improved slightly to handle unique slugs and unicode chars and packaged by Val L33.
@@ -16,9 +16,7 @@ It handles unicode and it produces unique slugs.
 
 Here what you need to do:
         
-1. Stick ``"uslug"`` in ``INSTALLED_APPS``, and then in your templates do::
-   
-Then import it:: from uslug import uSlug
+1. Stick ``"uslug"`` in ``INSTALLED_APPS``, Then import it like: from uslug import uSlug
             
 That's it.
 
@@ -53,6 +51,9 @@ Object Example
     def save(self, *args, **kwargs):
         self.slug = uSlug(self.name, instance=self)
         super(State, self).save(*args, **kwargs)
+        
+    if you had two "names" as John & John, the slug for the first John would be "john" & 
+    for the second John it would be "john-1"
 
 ToDo
 =====
