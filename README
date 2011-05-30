@@ -22,7 +22,7 @@ Then import it:: from uslug import uSlug
             
 That's it.
 
-Test Example
+String Test Example
 =====
 
         from uslug import uSlug
@@ -43,6 +43,16 @@ Test Example
         r = uSlug(s)
         self.assertEquals(r, "ying-shi-ma")     
         
+
+Object Example
+=====
+    Override your object's save method with something like this
+    
+    from uslug import uSlug
+
+    def save(self, *args, **kwargs):
+        self.slug = uSlug(self.name, instance=self)
+        super(State, self).save(*args, **kwargs)
 
 ToDo
 =====
