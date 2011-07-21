@@ -6,11 +6,11 @@ from django.utils.encoding import smart_unicode, force_unicode
 from unidecode import unidecode
 from types import UnicodeType
 
-# only allow the import of our public APIs
-__all__ = ['uSlug']
+# only allow the import of our public APIs (UU-SLUG = Uniqure & Unicode Slug)
+__all__ = ['uuslug']
 
 
-def uSlug(s, entities=True, decimal=True, hexadecimal=True,
+def uuslug(s, entities=True, decimal=True, hexadecimal=True,
    instance=None, slug_field='slug', filter_dict=None):
     """This method tries a little harder than django's django.template.defaultfilters.slugify.
 
@@ -39,7 +39,8 @@ def uSlug(s, entities=True, decimal=True, hexadecimal=True,
     Examples
     --------
     Example usage in save method for model:
-
+    
+    import uuslug as slugify
     self.slug = slugify(self.name, instance=self)
 
     Notes
