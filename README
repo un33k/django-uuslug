@@ -6,7 +6,7 @@ A custom slug app for Django, that guarantees Double(u) for (Uniqueness & Unicod
 Most of the code is originally by snippet http://www.djangosnippets.org/snippets/369/
 Improved slightly to handle unique slugs and unicode chars and packaged by Val L33.
 
-Patches welcome: http://github.com/un33k/django-uslug
+Patches welcome: http://bitbucket.org/un33k/django-uuslug
 
 Usage
 =====
@@ -16,29 +16,29 @@ It handles unicode and it produces unique slugs.
 
 Here what you need to do:
         
-1. Stick ``"uslug"`` in ``INSTALLED_APPS``, Then import it like: from uslug import uSlug
+1. Stick ``"uuslug"`` in ``INSTALLED_APPS``, Then import it like: from uuslug import uuslug as slugify
             
 That's it.
 
 String Test Example
 =====
 
-        from uslug import uSlug
+        from uuslug import uuslug as slugify
         
         s = "This is a test ---"
-        r = uSlug(s)
+        r = slugify(s)
         self.assertEquals(r, "this-is-a-test")
 
         s = 'C\'est déjà l\'été.'
-        r = uSlug(s)
+        r = slugify(s)
         self.assertEquals(r, "c-est-deja-l-ete")
         
         s = 'Nín hǎo. Wǒ shì zhōng guó rén'
-        r = uSlug(s)
+        r = slugify(s)
         self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
 
         s = '影師嗎'
-        r = uSlug(s)
+        r = slugify(s)
         self.assertEquals(r, "ying-shi-ma")     
         
 
@@ -46,10 +46,10 @@ Object Example
 =====
     Override your object's save method with something like this
     
-    from uslug import uSlug
+    from uslug import uuslug as slugify
 
     def save(self, *args, **kwargs):
-        self.slug = uSlug(self.name, instance=self)
+        self.slug = slugify(self.name, instance=self)
         super(State, self).save(*args, **kwargs)
         
     if you had two "names" as John & John, the slug for the first John would be "john" & 
@@ -59,7 +59,7 @@ ToDo
 =====
 add templatetags
 add testcase for templatetags
-add fixture to test uslug on objects
+add fixture to test uuslug on objects
 
 
 
