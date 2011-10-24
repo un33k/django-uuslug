@@ -46,7 +46,7 @@ Object Example
 =====
     Override your object's save method with something like this
     
-    from uslug import uuslug as slugify
+    from uuslug import uuslug as slugify
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name, instance=self)
