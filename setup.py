@@ -1,8 +1,13 @@
+import os
 from distutils.core import setup
 
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 setup(name='django-uuslug',
-    version='0.2',
+    version='0.3',
     description = "A Unicode slug that is also guaranteed to be unique",
+    long_description = read('README'),
     author='Val L33',
     author_email='val@neekware.com',
     url='http://bitbucket.org/un33k/django-uuslug',

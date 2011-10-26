@@ -15,8 +15,8 @@ If you want a worry free slug-er, then this is for you.
 It handles unicode and it produces unique slugs.
 
 Here what you need to do:
-        
-1. Stick ``"uuslug"`` in ``INSTALLED_APPS``, Then import it like: from uuslug import uuslug as slugify
+1. Install (via source code) or (pip install django-uuslug) ... etc.        
+2. Stick ``"uuslug"`` in ``INSTALLED_APPS``, Then import it like: from uuslug import uuslug as slugify
             
 That's it.
 
