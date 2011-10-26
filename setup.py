@@ -5,7 +5,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(name='django-uuslug',
-    version='0.4',
+    version='0.5',
     description = "A Unicode slug that is also guaranteed to be unique",
     long_description = read('README'),
     author='Val L33',
