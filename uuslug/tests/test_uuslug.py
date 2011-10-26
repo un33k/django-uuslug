@@ -2,10 +2,11 @@
 """Unit tests for uslug"""
 from django.test import TestCase
 from django.template import Context, Template
+from uuslug.models import CoolSlug 
 from uuslug import uuslug as slugify
 
-class SlugTestCase(TestCase):
-    """Tests for Slug"""
+class SlugUnicodeTestCase(TestCase):
+    """Tests for Slug - Unicode"""
 
     def test_manager(self):
         s = "This is a test ---"
@@ -22,4 +23,21 @@ class SlugTestCase(TestCase):
 
         s = '影師嗎'
         r = slugify(s)
-        self.assertEquals(r, "ying-shi-ma")     
+        self.assertEquals(r, "ying-shi-ma")
+
+class SlugUniqueTestCase(TestCase):
+    """Tests for Slug - Unique"""
+
+    def test_manager(self):
+        name = "john"
+        c = CoolSlug.objects.create(name=name)
+        c.save()
+        self.assertEquals(c.slug, name)
+       
+        c1 = CoolSlug.objects.create(name=name)
+        c1.save()
+        self.assertEquals(c1.slug, name+"-1")
+
+
+
+

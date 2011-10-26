@@ -2,11 +2,16 @@ import os
 
 DEBUG = TEMPLATE_DEBUG = True
 
+PROJECT_NAME = "uuslug"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/uuslug.db'
+        'NAME': PROJECT_NAME.strip().split(".")[0]+"_db"
     }
 }
-INSTALLED_APPS = ['uuslug']
+INSTALLED_APPS = [
+    'uuslug',
+]
+
 
