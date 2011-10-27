@@ -3,9 +3,6 @@ django-uuslug
 
 A custom slug app for Django, that guarantees Double (U)s for (Uniqueness & Unicode handling)
 
-Most of the code is originally by snippet http://www.djangosnippets.org/snippets/369/
-Improved slightly to handle unique slugs and unicode chars and packaged by Val L33.
-
 Patches welcome: https://github.com/un33k/django-uuslug
 
 Usage
@@ -79,5 +76,8 @@ ToDo
 =====
 clean up README
 
+Credits:
+Most of the code is originally by snippet http://www.djangosnippets.org/snippets/369/
+Improved slightly to handle unique slugs and unicode chars and packaged for easy install.
 
 
