@@ -3,7 +3,7 @@ import os
 try:
     _s = os.environ['DJANGO_SETTINGS_MODULE']
 except KeyError:
-    # settings should have been set by now, if not, we must be in test mode
+    # DJANGO_SETTINGS_MODULE should have been set by now, if not, we must be in test mode
     os.environ['DJANGO_SETTINGS_MODULE'] = 'uuslug.testsettings'
 
 import re

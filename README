@@ -1,83 +1,93 @@
 django-uuslug
 ================
 
-A custom slug app for Django, that guarantees Double (U)s for (Uniqueness & Unicode handling)
+A Django slugify application that guarantees uniqueness and handles unicode.
+UUSlug = (``U``nique + ``U``code Slug)
 
 Patches welcome: https://github.com/un33k/django-uuslug
 
 Usage
 =====
 
-If you want a worry free slug-er, then this is for you.
-It handles unicode and it produces unique slugs.
+A. Install django-uuslug:
+    * _ Make sure you have python 2.6+ and can install from pypi
+        1. easy_install django-uuslug
+        2. pip install django-uuslug
+        3. git clone http://bitbucket.org/un33k/django-uuslug
+            a. cd django-uuslug
+            b. run python setup.py
+        4. wget https://github.com/un33k/django-uuslug/zipball/master
+            a. unzip the downloaded file
+            b. cd into django-uuslug-* directory
+            c. run python setup.py
 
-Here what you need to do:
-1. Install (via source code on github) or (pip install django-uuslug) ... etc.
-2. Then import it like: from uuslug import uuslug as slugify
+B. Test & contribute to django-uuslug: (for developers)
+    * _ git clone http://bitbucket.org/un33k/django-uuslug
+            a. cd into django-uuslug
+            b. run python bootstrap.py
+            c. run bin/buildout -vvvvv
+            d. run bin/test
 
-That's it.
 
 Unicode Test Example
-=====
-        
-        from uuslug import uuslug as slugify
-        
-        s = "This is a test ---"
-        r = slugify(s)
-        self.assertEquals(r, "this-is-a-test")
-        
-        s = 'C\'est déjà l\'été.'
-        r = slugify(s)
-        self.assertEquals(r, "c-est-deja-l-ete")
-        
-        s = 'Nín hǎo. Wǒ shì zhōng guó rén'
-        r = slugify(s)
-        self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
-        
-        s = '影師嗎'
-        r = slugify(s)
-        self.assertEquals(r, "ying-shi-ma")
+=====================
+from uuslug import uuslug as slugify
+
+s = "This is a test ---"
+r = slugify(s)
+self.assertEquals(r, "this-is-a-test")
+
+s = 'C\'est déjà l\'été.'
+r = slugify(s)
+self.assertEquals(r, "c-est-deja-l-ete")
+
+s = 'Nín hǎo. Wǒ shì zhōng guó rén'
+r = slugify(s)
+self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
+
+s = '影師嗎'
+r = slugify(s)
+self.assertEquals(r, "ying-shi-ma")
 
 
 Uniqueness Test Example
+=======================
+Override your object's save method with something like this (models.py)
+
+from django.db import models
+from uuslug import uuslug as slugify
+
+class CoolSlug(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.CharField(max_length=200)
+    
+    def __unicode__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name, instance=self)
+        super(CoolSlug, self).save(*args, **kwargs)
+
+Test:
 =====
-    Override your object's save method with something like this (models.py)
-    
-    from django.db import models
-    from uuslug import uuslug as slugify
-    
-    class CoolSlug(models.Model):
-        name = models.CharField(max_length=100)
-        slug = models.CharField(max_length=200)
-        
-        def __unicode__(self):
-            return self.name
-        
-        def save(self, *args, **kwargs):
-            self.slug = slugify(self.name, instance=self)
-            super(CoolSlug, self).save(*args, **kwargs)
+ 
+name = "john"
+c = CoolSlug.objects.create(name=name)
+c.save()
+self.assertEquals(c.slug, name) # slug = "john"
+  
+c1 = CoolSlug.objects.create(name=name)
+c1.save()
+self.assertEquals(c1.slug, name+"-1") # slug = "john-1"
 
-    Test:
-        
-    name = "john"
-    c = CoolSlug.objects.create(name=name)
-    c.save()
-    self.assertEquals(c.slug, name)
-      
-    c1 = CoolSlug.objects.create(name=name)
-    c1.save()
-    self.assertEquals(c1.slug, name+"-1")
-        
-    Notice:
-    the slug for the first object would be "john", while the second object's slug
-    would be "john-1".
-
-ToDo
+ToDo:
 =====
 clean up README
+add more test and examples
 
 Credits:
-Most of the code is originally by snippet http://www.djangosnippets.org/snippets/369/
-Improved slightly to handle unique slugs and unicode chars and packaged for easy install.
+=========
+This is a cleaned and packaged up version of snippet (369) from http://www.djangosnippets.org/
+Improved to handle unique slugs and unicode chars and packaged for easy install.
 
 
