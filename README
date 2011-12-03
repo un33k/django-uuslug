@@ -13,7 +13,7 @@ A. Install django-uuslug:
     * _ Make sure you have python 2.6+ and can install from pypi
         1. easy_install django-uuslug
         2. pip install django-uuslug
-        3. git clone http://bitbucket.org/un33k/django-uuslug
+        3. git clone http://github.com/un33k/django-uuslug
             a. cd django-uuslug
             b. run python setup.py
         4. wget https://github.com/un33k/django-uuslug/zipball/master
@@ -22,7 +22,7 @@ A. Install django-uuslug:
             c. run python setup.py
 
 B. Test & contribute to django-uuslug: (for developers)
-    * _ git clone http://bitbucket.org/un33k/django-uuslug
+    * _ git clone http://github.com/un33k/django-uuslug
             a. cd into django-uuslug
             b. run python bootstrap.py
             c. run bin/buildout -vvvvv
