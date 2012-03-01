@@ -94,6 +94,8 @@ def uuslug(s, entities=True, decimal=True, hexadecimal=True,
     slug = s
     if instance:
         def get_query():
+            if hasattr(instance, 'objects'):
+                raise Exception("Error: you must pass an instance to uuslug, not a model.")
             query = instance.__class__.objects.filter(**{slug_field: slug})
             if filter_dict:
                 query = query.filter(**filter_dict)
