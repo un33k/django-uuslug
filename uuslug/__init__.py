@@ -90,6 +90,7 @@ def uuslug(s, entities=True, decimal=True, hexadecimal=True,
     s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
 
     #replace unwanted characters
+    s = re.sub(r'[\']+', '', s.lower()) # replace ' with nothing instead with -
     s = re.sub(r'[^-a-z0-9]+', '-', s.lower())
 
     #remove redundant -
