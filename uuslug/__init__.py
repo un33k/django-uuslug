@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import pkg_resources 
+
 try:
     _s = os.environ['DJANGO_SETTINGS_MODULE']
 except KeyError:
@@ -10,8 +12,10 @@ import re
 import unicodedata
 from htmlentitydefs import name2codepoint
 from django.utils.encoding import smart_unicode, force_unicode
-from unidecode import unidecode
 from types import UnicodeType
+
+pkg_resources.require("Unidecode")
+from unidecode import unidecode
 
 # only allow the import of our public APIs (UU-SLUG = Uniqure & Unicode Slug)
 __all__ = ['uuslug']
