@@ -10,7 +10,7 @@ then uuslug create "komp-uter" from this, but translitiration "komputer" seems m
 
 
 A Django slugify application that guarantees uniqueness and handles unicode.
-UUSlug = (``U``nique + ``U``code Slug)
+UUSlug = (``U``nique + ``U``nicode Slug)
 
 Patches welcome: https://github.com/un33k/django-uuslug
 
@@ -87,6 +87,10 @@ self.assertEquals(c.slug, name) # slug = "john"
 c1 = CoolSlug.objects.create(name=name)
 c1.save()
 self.assertEquals(c1.slug, name+"-1") # slug = "john-1"
+
+c1 = CoolSlug.objects.create(name=name)
+c1.save()
+self.assertEquals(c1.slug, name+"-2") # slug = "john-2"
 
 ToDo:
 =====
