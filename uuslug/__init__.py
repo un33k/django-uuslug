@@ -18,7 +18,7 @@ pkg_resources.require("Unidecode")
 from unidecode import unidecode
 
 # only allow the import of our public APIs (UU-SLUG = Uniqure & Unicode Slug)
-__all__ = ['uuslug']
+__all__ = ['slugify', 'uuslug']
 
 
 # character entity reference
@@ -34,46 +34,10 @@ REPLACE1_REXP = re.compile(r'[\']+')
 REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
-
-def uuslug(s, entities=True, decimal=True, hexadecimal=True,
-   instance=None, slug_field='slug', filter_dict=None):
-    """This method tries a little harder than django's django.template.defaultfilters.slugify.
-
-    Parameters
-    ----------
-    s : string
-        Explanation
-    entities: boolean, optional
-        Explanation
-    decimal : boolean, optional
-        Explanation
-    hexadecimal : boolean, optional
-        Explanation
-    instance : Model object or None, optional
-        Explanation
-    slug_field : string, optional
-        Explanation
-    filter_dict : dictionary, optional
-        Explanation
-
-    Returns
-    -------
-    slug : string
-        Explanation
-
-    Examples
-    --------
-    Example usage in save method for model:
-    
-    import uuslug as slugify
-    self.slug = slugify(self.name, instance=self)
-
-    Notes
-    -----
-
-    From http://www.djangosnippets.org/snippets/369/
+def slugify(s, entities=True, decimal=True, hexadecimal=True):
     """
-
+    make a slug from the given string
+    """
     if type(s) != UnicodeType:
         s = unicode(s, 'utf-8', 'ignore')
 
@@ -110,19 +74,62 @@ def uuslug(s, entities=True, decimal=True, hexadecimal=True,
     #remove redundant -
     s = REMOVE_REXP.sub('-', s).strip('-')
 
-    slug = s
-    if instance:
-        def get_query():
-            if hasattr(instance, 'objects'):
-                raise Exception("Error: you must pass an instance to uuslug, not a model.")
-            query = instance.__class__.objects.filter(**{slug_field: slug})
-            if filter_dict:
-                query = query.filter(**filter_dict)
-            if instance.pk:
-                query = query.exclude(pk=instance.pk)
-            return query
-        counter = 1
-        while get_query():
-            slug = "%s-%s" % (s, counter)
-            counter += 1
-    return slug
+    return s
+
+
+def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
+    slug_field='slug', filter_dict=None, start_no=1):
+    """This method tries a little harder than django's django.template.defaultfilters.slugify.
+
+    Parameters
+    ----------
+    s : string
+        Explanation
+    entities: boolean, optional
+        Explanation
+    decimal : boolean, optional
+        Explanation
+    hexadecimal : boolean, optional
+        Explanation
+    instance : Model object or None, optional
+        Explanation
+    slug_field : string, optional
+        Explanation
+    filter_dict : dictionary, optional
+        Explanation
+
+    Returns
+    -------
+    slug : string
+        Explanation
+
+    Examples
+    --------
+    Example usage in save method for model:
+    
+    import uuslug as slugify
+    self.slug = slugify(self.name, instance=self)
+
+    Notes
+    -----
+
+    From http://www.djangosnippets.org/snippets/369/
+    """
+    if hasattr(instance, 'objects'):
+        raise Exception("Error: you must pass an instance to uuslug, not a model.")
+
+    queryset = instance.__class__.objects.all()#.only("pk", slug_field)
+    if filter_dict:
+        queryset = queryset.filter(**filter_dict)
+    if instance.pk:
+        queryset = queryset.exclude(pk=instance.pk)
+
+    slug1 = slugify(s, entities=entities, decimal=decimal, hexadecimal=hexadecimal)
+    slug2 = slug1
+
+    counter = start_no
+    while queryset.filter(**{slug_field: slug2}).exists():
+        slug2 = "%s-%s" % (slug1, counter)
+        counter += 1
+
+    return slug2

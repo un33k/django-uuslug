@@ -39,7 +39,7 @@ B. Test & contribute to django-uuslug: (for developers)
 
 Unicode Test Example
 =====================
-from uuslug import uuslug as slugify
+from uuslug import slugify
 
 s = "This is a test ---"
 r = slugify(s)
@@ -63,7 +63,7 @@ Uniqueness Test Example
 Override your object's save method with something like this (models.py)
 
 from django.db import models
-from uuslug import uuslug as slugify
+from uuslug import uuslug
 
 class CoolSlug(models.Model):
     name = models.CharField(max_length=100)
@@ -73,8 +73,13 @@ class CoolSlug(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name, instance=self)
+        self.slug = uuslug(self.name, instance=self)
         super(CoolSlug, self).save(*args, **kwargs)
+
+
+You can specify the start number, e.g.: the second slug should start with "-2" instead of "-1":
+    self.slug = uuslug(self.name, instance=self, start_no=2)
+
 
 Test:
 =====
