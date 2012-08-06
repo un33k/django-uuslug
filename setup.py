@@ -5,10 +5,10 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(name='django-uuslug',
-    version='0.6',
+    version='0.7',
     description = "A Django slugify application that guarantees uniqueness and handles unicode",
     long_description = read('README'),
-    author='Val L33',
+    author='Val Neekman',
     author_email='val@neekware.com',
     url='http://github.com/un33k/django-uuslug',
     packages=['uuslug'],

@@ -109,11 +109,6 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
     
     import uuslug as slugify
     self.slug = slugify(self.name, instance=self)
-
-    Notes
-    -----
-
-    From http://www.djangosnippets.org/snippets/369/
     """
     if hasattr(instance, 'objects'):
         raise Exception("Error: you must pass an instance to uuslug, not a model.")
