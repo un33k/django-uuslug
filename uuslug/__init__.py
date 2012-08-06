@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import pkg_resources 
+import pkg_resources
 
 try:
     _s = os.environ['DJANGO_SETTINGS_MODULE']
@@ -19,6 +19,20 @@ from unidecode import unidecode
 
 # only allow the import of our public APIs (UU-SLUG = Uniqure & Unicode Slug)
 __all__ = ['uuslug']
+
+
+# character entity reference
+CHAR_ENTITY_REXP = re.compile('&(%s);' % '|'.join(name2codepoint))
+
+# decimal character reference
+DECIMAL_REXP = re.compile('&#(\d+);')
+
+# hexadecimal character reference
+HEX_REXP = re.compile('&#x([\da-fA-F]+);')
+
+REPLACE1_REXP = re.compile(r'[\']+')
+REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
+REMOVE_REXP = re.compile('-{2,}')
 
 
 def uuslug(s, entities=True, decimal=True, hexadecimal=True,
@@ -59,30 +73,30 @@ def uuslug(s, entities=True, decimal=True, hexadecimal=True,
 
     From http://www.djangosnippets.org/snippets/369/
     """
-    
+
     if type(s) != UnicodeType:
         s = unicode(s, 'utf-8', 'ignore')
-    
+
     # decode now ( 影師嗎 = Ying Shi Ma)
-    s = unidecode(s)  
-          
+    s = unidecode(s)
+
     s = smart_unicode(s)
-        
+
     #character entity reference
     if entities:
-        s = re.sub('&(%s);' % '|'.join(name2codepoint), lambda m: unichr(name2codepoint[m.group(1)]), s)
+        s = CHAR_ENTITY_REXP.sub(lambda m: unichr(name2codepoint[m.group(1)]), s)
 
     #decimal character reference
     if decimal:
         try:
-            s = re.sub('&#(\d+);', lambda m: unichr(int(m.group(1))), s)
+            s = DECIMAL_REXP.sub(lambda m: unichr(int(m.group(1))), s)
         except:
             pass
 
     #hexadecimal character reference
     if hexadecimal:
         try:
-            s = re.sub('&#x([\da-fA-F]+);', lambda m: unichr(int(m.group(1), 16)), s)
+            s = HEX_REXP.sub(lambda m: unichr(int(m.group(1), 16)), s)
         except:
             pass
 
@@ -90,11 +104,11 @@ def uuslug(s, entities=True, decimal=True, hexadecimal=True,
     s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
 
     #replace unwanted characters
-    s = re.sub(r'[\']+', '', s.lower()) # replace ' with nothing instead with -
-    s = re.sub(r'[^-a-z0-9]+', '-', s.lower())
+    s = REPLACE1_REXP.sub('', s.lower()) # replace ' with nothing instead with -
+    s = REPLACE2_REXP.sub('-', s.lower())
 
     #remove redundant -
-    s = re.sub('-{2,}', '-', s).strip('-')
+    s = REMOVE_REXP.sub('-', s).strip('-')
 
     slug = s
     if instance:
