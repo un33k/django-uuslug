@@ -1,9 +1,19 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
+
 """Unit tests for uslug"""
-from django.test import TestCase
+
+from django.db import models, connection
 from django.template import Context, Template
-from uuslug.models import CoolSlug 
-from uuslug import uuslug as slugify
+from django.test import TestCase
+from django.db import connections, DEFAULT_DB_ALIAS, reset_queries
+from django.core.signals import request_started
+
+# http://pypi.python.org/pypi/django-tools/
+#from django_tools.unittest_utils.print_sql import PrintQueries
+
+from uuslug.models import CoolSlug, AnotherSlug
+from uuslug import slugify
+
 
 class SlugUnicodeTestCase(TestCase):
     """Tests for Slug - Unicode"""
@@ -25,19 +35,51 @@ class SlugUnicodeTestCase(TestCase):
         r = slugify(s)
         self.assertEquals(r, "ying-shi-ma")
 
+
+
 class SlugUniqueTestCase(TestCase):
     """Tests for Slug - Unique"""
-
     def test_manager(self):
         name = "john"
-        c = CoolSlug.objects.create(name=name)
-        c.save()
-        self.assertEquals(c.slug, name)
-       
-        c1 = CoolSlug.objects.create(name=name)
-        c1.save()
-        self.assertEquals(c1.slug, name+"-1")
 
+        #with PrintQueries("create first john"): # display the SQL queries
+        with self.assertNumQueries(2):
+            # 1. query: SELECT test, if slug 'john' exists
+            # 2. query: INSERT values
+            obj = CoolSlug.objects.create(name=name)
+        self.assertEquals(obj.slug, "john")
 
+        #with PrintQueries("create second john"): # display the SQL queries
+        with self.assertNumQueries(3):
+            # 1. query: SELECT test, if slug 'john' exists
+            # 2. query: SELECT test, if slug 'john-1' exists
+            # 3. query: INSERT values
+            obj = CoolSlug.objects.create(name=name)
+        self.assertEquals(obj.slug, "john-1")
 
+    def test_start_no(self):
+        name = 'Foo Bar'#'C\'est déjà l\'été.'
 
+        #with PrintQueries("create first 'Foo Bar'"): # display the SQL queries
+        with self.assertNumQueries(2):
+            # 1. query: SELECT test, if slug 'foo-bar' exists
+            # 2. query: INSERT values
+            obj = AnotherSlug.objects.create(name=name)
+        self.assertEquals(obj.slug, "foo-bar")
+
+        #with PrintQueries("create second 'Foo Bar'"): # display the SQL queries
+        with self.assertNumQueries(3):
+            # 1. query: SELECT test, if slug 'foo-bar' exists
+            # 2. query: SELECT test, if slug 'foo-bar-2' exists
+            # 3. query: INSERT values
+            obj = AnotherSlug.objects.create(name=name)
+        self.assertEquals(obj.slug, "foo-bar-2")
+
+        #with PrintQueries("create third 'Foo Bar'"): # display the SQL queries
+        with self.assertNumQueries(4):
+            # 1. query: SELECT test, if slug 'foo-bar' exists
+            # 2. query: SELECT test, if slug 'foo-bar-2' exists
+            # 3. query: SELECT test, if slug 'foo-bar-3' exists
+            # 4. query: INSERT values
+            obj = AnotherSlug.objects.create(name=name)
+        self.assertEquals(obj.slug, "foo-bar-3")
