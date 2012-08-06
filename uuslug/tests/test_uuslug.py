@@ -15,8 +15,8 @@ class SlugUnicodeTestCase(TestCase):
 
         s = 'C\'est déjà l\'été.'
         r = slugify(s)
-        self.assertEquals(r, "c-est-deja-l-ete")
-        
+        self.assertEquals(r, "cest-deja-lete")
+
         s = 'Nín hǎo. Wǒ shì zhōng guó rén'
         r = slugify(s)
         self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
