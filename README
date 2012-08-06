@@ -1,14 +1,6 @@
 django-uuslug
 ================
 
-
-This fork notes
-------------------------------------------------------------------------------------------------
-Here ' symbol in result of unidecode.unidecode() is deleted instead of replacing with -.
-For example for Russian word "Компьютер" unidecode.unidecode() returns "komp'uter", 
-then uuslug create "komp-uter" from this, but translitiration "komputer" seems more natural.
-
-
 A Django slugify application that guarantees uniqueness and handles unicode.
 UUSlug = (``U``nique + ``U``nicode Slug)
 
@@ -47,7 +39,7 @@ self.assertEquals(r, "this-is-a-test")
 
 s = 'C\'est déjà l\'été.'
 r = slugify(s)
-self.assertEquals(r, "c-est-deja-l-ete")
+self.assertEquals(r, "c-est-deja-lete")
 
 s = 'Nín hǎo. Wǒ shì zhōng guó rén'
 r = slugify(s)
@@ -99,7 +91,7 @@ add more test and examples
 
 Credits:
 =========
-This is a cleaned and packaged up version of snippet (369) from http://www.djangosnippets.org/
+This is inspired by a snippet from http://www.djangosnippets.org/
 Improved to handle unique slugs and unicode chars and packaged for easy install.
 
 

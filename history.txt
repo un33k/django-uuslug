@@ -1,0 +1,10 @@
+
+- August 6, 2012
+------------------------
+1. history file created to track the changes
+2. singleton "'" handling feature broke the testunit (fix pulled in from re_compile branch)
+3. re cleanup (pulled in from re_compile branch)
+4. up the version
+5. updated the credit section from the README as the referred snippet no longer exists
+6. include full name in setup.py
+7. up Django to 1.4.1

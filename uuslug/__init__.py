@@ -67,11 +67,6 @@ def uuslug(s, entities=True, decimal=True, hexadecimal=True,
     
     import uuslug as slugify
     self.slug = slugify(self.name, instance=self)
-
-    Notes
-    -----
-
-    From http://www.djangosnippets.org/snippets/369/
     """
 
     if type(s) != UnicodeType:
