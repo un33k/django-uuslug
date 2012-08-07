@@ -69,8 +69,10 @@ class CoolSlug(models.Model):
         super(CoolSlug, self).save(*args, **kwargs)
 
 
-You can specify the start number, e.g.: the second slug should start with "-2" instead of "-1":
+Note: You can also specify the start number.
+Example: 
     self.slug = uuslug(self.name, instance=self, start_no=2)
+    # the second slug should start with "-2" instead of "-1"
 
 
 Test:
