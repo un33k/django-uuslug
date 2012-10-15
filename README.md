@@ -100,7 +100,7 @@ To run the tests against the current environment:
 Changelog
 =========
 
-0.9
+0.9.0
 -----
 * removed buildout dependency
 * splitted unicode slugify into its own python module
