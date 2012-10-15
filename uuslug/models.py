@@ -1,10 +1,9 @@
 import os
 
 # create a database table only in unit test mode
-if os.environ['DJANGO_SETTINGS_MODULE'] == 'uuslug.testsettings':
+if 'testsettings' in os.environ['DJANGO_SETTINGS_MODULE']:
     from django.db import models
     from uuslug import uuslug
-
 
     class CoolSlug(models.Model):
         name = models.CharField(max_length=100)

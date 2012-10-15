@@ -1,12 +1,6 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
-"""Unit tests for uslug"""
-
-from django.db import models, connection
-from django.template import Context, Template
 from django.test import TestCase
-from django.db import connections, DEFAULT_DB_ALIAS, reset_queries
-from django.core.signals import request_started
 
 # http://pypi.python.org/pypi/django-tools/
 #from django_tools.unittest_utils.print_sql import PrintQueries
@@ -34,11 +28,15 @@ class SlugUnicodeTestCase(TestCase):
         s = '影師嗎'
         r = slugify(s)
         self.assertEquals(r, "ying-shi-ma")
-
+        
+        s = 'Компьютер'
+        r = slugify(s)
+        self.assertEquals(r, "kompiuter")
 
 
 class SlugUniqueTestCase(TestCase):
     """Tests for Slug - Unique"""
+    
     def test_manager(self):
         name = "john"
 
@@ -58,7 +56,7 @@ class SlugUniqueTestCase(TestCase):
         self.assertEquals(obj.slug, "john-1")
 
     def test_start_no(self):
-        name = 'Foo Bar'#'C\'est déjà l\'été.'
+        name = 'Foo Bar'
 
         #with PrintQueries("create first 'Foo Bar'"): # display the SQL queries
         with self.assertNumQueries(2):
@@ -83,3 +81,6 @@ class SlugUniqueTestCase(TestCase):
             # 4. query: INSERT values
             obj = AnotherSlug.objects.create(name=name)
         self.assertEquals(obj.slug, "foo-bar-3")
+
+
+
