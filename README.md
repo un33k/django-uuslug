@@ -26,8 +26,9 @@ How to install
 
 How to use
 =================
-    # Unicode Test
-    ======================
+
+Unicode Test
+
     from uuslug import slugify
 
     s = "This is a test ---"
@@ -50,8 +51,8 @@ How to use
     r = slugify(txt)
     print r # => "kompiuter"
 
-    Uniqueness Test
-    =======================
+Uniqueness Test
+
     Override your object's save method with something like this (models.py)
 
     from django.db import models
@@ -102,7 +103,7 @@ Changelog
 0.9
 -----
 * removed buildout dependency
-* split unicode slugify into its own python module
+* splitted unicode slugify into its own python module
 
 0.8
 -----
