@@ -4,5 +4,5 @@ DATABASES = {
         'NAME': ':memory:',
     },
 }
-
+SECRET_KEY = "un33k"
 INSTALLED_APPS = ['uuslug']

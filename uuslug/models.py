@@ -29,3 +29,42 @@ if 'testsettings' in os.environ['DJANGO_SETTINGS_MODULE']:
             super(AnotherSlug, self).save(*args, **kwargs)
 
 
+    class TruncatedSlug(models.Model):
+        name = models.CharField(max_length=15)
+        slug = models.CharField(max_length=17)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, start_no=2, max_length=17, word_boundary=False)
+            super(TruncatedSlug, self).save(*args, **kwargs)
+
+
+    class SmartTruncatedSlug(models.Model):
+        name = models.CharField(max_length=17)
+        slug = models.CharField(max_length=17)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, start_no=2, max_length=17, word_boundary=True)
+            super(SmartTruncatedSlug, self).save(*args, **kwargs)
+
+
+    class SmartTruncatedExactWordBoundrySlug(models.Model):
+        name = models.CharField(max_length=19)
+        slug = models.CharField(max_length=19)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, start_no=9, max_length=19, word_boundary=True)
+            super(SmartTruncatedExactWordBoundrySlug, self).save(*args, **kwargs)
+
+
+
+
+

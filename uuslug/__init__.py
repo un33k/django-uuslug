@@ -1,51 +1,23 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '0.9.0'
+__version__ = '0.1.0'
 
 from django.utils.encoding import smart_unicode
 from slugify import slugify as pyslugify
 
 __all__ = ['slugify', 'uuslug']
 
-def slugify(text, entities=True, decimal=True, hexadecimal=True):
+def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False):
     """ Make a slug from a given text """
     
-    return smart_unicode(pyslugify(text, entities, decimal, hexadecimal))
+    return smart_unicode(pyslugify(text, entities, decimal, hexadecimal, max_length, word_boundary))
 
 
 def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
-    slug_field='slug', filter_dict=None, start_no=1):
-    """This method tries a little harder than django's django.template.defaultfilters.slugify.
+    slug_field='slug', filter_dict=None, start_no=1, max_length=0, word_boundary=False):
 
-    Parameters
-    ----------
-    s : string
-        Explanation
-    entities: boolean, optional
-        Explanation
-    decimal : boolean, optional
-        Explanation
-    hexadecimal : boolean, optional
-        Explanation
-    instance : Model object or None, optional
-        Explanation
-    slug_field : string, optional
-        Explanation
-    filter_dict : dictionary, optional
-        Explanation
+    """ This method tries a little harder than django's django.template.defaultfilters.slugify. """
 
-    Returns
-    -------
-    slug : string
-        Explanation
-
-    Examples
-    --------
-    Example usage in save method for model:
-    
-    import uuslug as slugify
-    self.slug = slugify(self.name, instance=self)
-    """
     if hasattr(instance, 'objects'):
         raise Exception("Error: you must pass an instance to uuslug, not a model.")
 
@@ -55,12 +27,20 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
     if instance.pk:
         queryset = queryset.exclude(pk=instance.pk)
 
-    slug1 = slugify(s, entities=entities, decimal=decimal, hexadecimal=hexadecimal)
-    slug2 = slug1
+    slug = slugify(s, entities=entities, decimal=decimal, hexadecimal=hexadecimal, max_length=max_length, word_boundary=word_boundary)
 
+    new_slug = slug
     counter = start_no
-    while queryset.filter(**{slug_field: slug2}).exists():
-        slug2 = "%s-%s" % (slug1, counter)
+    while queryset.filter(**{slug_field: new_slug}).exists():
+        if max_length > 0:
+            if len(slug) + len('-') + len(str(counter)) > max_length:
+                slug = slug[:max_length-len(slug)-len('-')-len(str(counter))] # make room for the "-1, -2 ... etc"
+        new_slug = "%s-%s" % (slug, counter)
         counter += 1
 
-    return slug2
+    return new_slug
+
+
+
+
+

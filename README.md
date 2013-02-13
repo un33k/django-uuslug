@@ -87,8 +87,33 @@ Uniqueness Test
     c2 = CoolSlug.objects.create(name=name)
     c2.save()
     print c2.slug # => "john-2"
-        
-        
+
+
+    # If you need truncation of your slug, here is an example
+    class SmartTruncatedSlug(models.Model):
+        name = models.CharField(max_length=19)
+        slug = models.CharField(max_length=19)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, start_no=9, max_length=19, word_boundary=True)
+            super(SmartTruncatedSlug, self).save(*args, **kwargs)
+
+        # Let's test it
+        name = 'jaja---lol-méméméoo--a'
+
+        obj = SmartTruncatedSlug.objects.create(name=name)
+        print obj.slug # "jaja-lol-mememeoo"  --- where 19 is max_length (first slug, no duplicate yet)
+
+        obj = SmartTruncatedSlug.objects.create(name=name)
+        print obj.slug # "jaja-lol-mememeoo-9" --- where 19 is max_length, start_no = 9
+
+        obj = SmartTruncatedSlug.objects.create(name=name)
+        print obj.slug # "jaja-lol-mememeo-10" -- where 19 is max_length, smart appending "-10"
+
+
 Running the tests
 =================
 
@@ -99,6 +124,10 @@ To run the tests against the current environment:
 
 Changelog
 =========
+
+0.1.0
+-----
+* Added the ability to truncate slugs + tests (viva Juan Riaza of Spain)
 
 0.9.0
 -----
