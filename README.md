@@ -155,7 +155,7 @@ Changelog
 
 0.1.0
 -----
-* Added the ability to truncate slugs + tests (viva Juan Riaza of Spain)
+* Added the ability to truncate slugs + tests (viva Juan Riaza of Spain for requesting this feature)
 
 0.9.0
 -----
