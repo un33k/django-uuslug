@@ -31,25 +31,53 @@ Unicode Test
 
     from uuslug import slugify
 
-    s = "This is a test ---"
-    r = slugify(s)
-    print r # => "this-is-a-test"
+    txt = "This is a test ---"
+    r = slugify(txt)
+    self.assertEquals(r, "this-is-a-test")
+    
+    txt = "This -- is a ## test ---"
+    r = slugify(txt)
+    self.assertEquals(r, "this-is-a-test")
+    
+    txt = 'C\'est déjà l\'été.'
+    r = slugify(txt)
+    self.assertEquals(r, "cest-deja-lete")
 
-    s = 'C\'est déjà l\'été.'
-    r = slugify(s)
-    print r # => "c-est-deja-lete"
-
-    s = 'Nín hǎo. Wǒ shì zhōng guó rén'
-    r = slugify(s)
-    print r # => "nin-hao-wo-shi-zhong-guo-ren"
-
-    s = '影師嗎'
-    r = slugify(s)
-    print r # => "ying-shi-ma"
+    txt = 'Nín hǎo. Wǒ shì zhōng guó rén'
+    r = slugify(txt)
+    self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
 
     txt = 'Компьютер'
     r = slugify(txt)
-    print r # => "kompiuter"
+    self.assertEquals(r, "kompiuter")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt)
+    self.assertEquals(r, "jaja-lol-mememeoo-a")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=9)
+    self.assertEquals(r, "jaja-lol")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=15)
+    self.assertEquals(r, "jaja-lol-mememe")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=50)
+    self.assertEquals(r, "jaja-lol-mememeoo-a")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=15, word_boundary=True)
+    self.assertEquals(r, "jaja-lol-a")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=19, word_boundary=True)
+    self.assertEquals(r, "jaja-lol-mememeoo")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=20, word_boundary=True)
+    self.assertEquals(r, "jaja-lol-mememeoo-a")
 
 Uniqueness Test
 
