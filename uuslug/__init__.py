@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 from django.utils.encoding import smart_unicode
 from slugify import slugify as pyslugify
