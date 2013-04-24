@@ -162,6 +162,10 @@ To run the tests against the current environment:
 Changelog
 =========
 
+1.0.0
+-----
+* Changed status to Production / Stable
+
 0.2.0
 -----
 * Added an option to choose a non-dash separator
