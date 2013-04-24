@@ -79,6 +79,14 @@ Unicode Test
     r = slugify(txt, max_length=20, word_boundary=True)
     self.assertEquals(r, "jaja-lol-mememeoo-a")
 
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=20, word_boundary=True, separator=".")
+    self.assertEquals(r, "jaja.lol.mememeoo.a")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
+    self.assertEquals(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
+
 Uniqueness Test
 
     Override your object's save method with something like this (models.py)
@@ -94,6 +102,7 @@ Uniqueness Test
             return self.name
 
         def save(self, *args, **kwargs):
+            # self.slug = uuslug(self.name, instance=self, separator="_") # optional non-dash separator
             self.slug = uuslug(self.name, instance=self)
             super(CoolSlug, self).save(*args, **kwargs)
 
@@ -153,9 +162,13 @@ To run the tests against the current environment:
 Changelog
 =========
 
+0.2.0
+-----
+* Added an option to add a non-dash separator
+
 0.1.0
 -----
-* Added the ability to truncate slugs + tests (viva Juan Riaza of Spain for requesting this feature)
+* Added the ability to truncate slugs + tests (feature request by: Juan Riaza of Spain)
 
 0.9.0
 -----

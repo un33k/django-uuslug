@@ -65,6 +65,27 @@ if 'testsettings' in os.environ['DJANGO_SETTINGS_MODULE']:
             super(SmartTruncatedExactWordBoundrySlug, self).save(*args, **kwargs)
 
 
+    class CoolSlugDifferentSeparator(models.Model):
+        name = models.CharField(max_length=100)
+        slug = models.CharField(max_length=200)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, separator='_')
+            super(CoolSlugDifferentSeparator, self).save(*args, **kwargs)
+
+    class TruncatedSlugDifferentSeparator(models.Model):
+        name = models.CharField(max_length=15)
+        slug = models.CharField(max_length=17)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, start_no=2, max_length=17, word_boundary=False, separator='_')
+            super(TruncatedSlugDifferentSeparator, self).save(*args, **kwargs)
 
 
 

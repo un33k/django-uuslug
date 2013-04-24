@@ -14,7 +14,7 @@ url = 'https://github.com/un33k/django-uuslug'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'BSD'
-install_requires = ['python-slugify>=0.0.3']
+install_requires = ['python-slugify>=0.0.4']
 classifiers = [
     'Development Status :: 4 - Beta',
     'Environment :: Web Environment',

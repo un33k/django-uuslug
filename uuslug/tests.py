@@ -5,9 +5,10 @@ from django.test import TestCase
 # http://pypi.python.org/pypi/django-tools/
 #from django_tools.unittest_utils.print_sql import PrintQueries
 
-from uuslug.models import CoolSlug, AnotherSlug, TruncatedSlug, SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug
 from uuslug import slugify
-
+from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
+                           SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
+                           CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator)
 
 class SlugUnicodeTestCase(TestCase):
     """Tests for Slug - Unicode"""
@@ -62,6 +63,13 @@ class SlugUnicodeTestCase(TestCase):
         r = slugify(txt, max_length=20, word_boundary=True)
         self.assertEquals(r, "jaja-lol-mememeoo-a")
 
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=20, word_boundary=True, separator=".")
+        self.assertEquals(r, "jaja.lol.mememeoo.a")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
+        self.assertEquals(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
 class SlugUniqueTestCase(TestCase):
     """Tests for Slug - Unique"""
@@ -136,6 +144,47 @@ class SlugUniqueTestCase(TestCase):
 
         obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
         self.assertEquals(obj.slug, "jaja-lol-mememeo-10") # 19 is max_length, readjust for "-10"
+
+class SlugUniqueDifferentSeparatorTestCase(TestCase):
+    """Tests for Slug - Unique with different separator """
+
+    def test_manager(self):
+        name = "john"
+
+        #with PrintQueries("create first john"): # display the SQL queries
+        with self.assertNumQueries(2):
+            # 1. query: SELECT test, if slug 'john' exists
+            # 2. query: INSERT values
+            obj = CoolSlugDifferentSeparator.objects.create(name=name)
+        self.assertEquals(obj.slug, "john")
+
+        #with PrintQueries("create second john"): # display the SQL queries
+        with self.assertNumQueries(3):
+            # 1. query: SELECT test, if slug 'john' exists
+            # 2. query: SELECT test, if slug 'john-1' exists
+            # 3. query: INSERT values
+            obj = CoolSlugDifferentSeparator.objects.create(name=name)
+        self.assertEquals(obj.slug, "john_1")
+
+        #with PrintQueries("create third john"): # display the SQL queries
+        with self.assertNumQueries(4):
+            # 1. query: SELECT test, if slug 'john' exists
+            # 2. query: SELECT test, if slug 'john-1' exists
+            # 3. query: INSERT values
+            obj = CoolSlugDifferentSeparator.objects.create(name=name)
+        self.assertEquals(obj.slug, "john_2")
+
+    def test_max_length(self):
+        name = 'jaja---lol-méméméoo--a'
+
+        obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
+        self.assertEquals(obj.slug, "jaja_lol_mememeoo") # 17 is max_length
+
+        obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
+        self.assertEquals(obj.slug, "jaja_lol_mememe_2") # 17 is max_length
+
+        obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
+        self.assertEquals(obj.slug, "jaja_lol_mememe_3") # 17 is max_length
 
 
 
