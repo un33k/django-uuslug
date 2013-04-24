@@ -164,7 +164,7 @@ Changelog
 
 0.2.0
 -----
-* Added an option to add a non-dash separator
+* Added an option to choose a non-dash separator
 
 0.1.0
 -----
