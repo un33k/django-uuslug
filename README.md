@@ -174,7 +174,7 @@ Changelog
 -----
 * Added the ability to truncate slugs + tests (feature request by: Juan Riaza of Spain)
 
-0.9.0
+0.0.9
 -----
 * removed buildout dependency
 * splitted unicode slugify into its own python module
