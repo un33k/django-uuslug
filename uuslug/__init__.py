@@ -13,13 +13,22 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     return smart_unicode(pyslugify(text, entities, decimal, hexadecimal, max_length, word_boundary, separator))
 
 
-def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
+def uuslug(s, instance, model=None, entities=True, decimal=True, hexadecimal=True,
     slug_field='slug', filter_dict=None, start_no=1, max_length=0, word_boundary=False, separator='-'):
 
     """ This method tries a little harder than django's django.template.defaultfilters.slugify. """
 
     if hasattr(instance, 'objects'):
-        raise Exception("Error: you must pass an instance to uuslug, not a model.")
+        raise Exception("Error: instance must be a model instance or pk, not a model class")
+
+    if model:
+        try:
+            instance = model.objects.get(pk=instance)
+        except model.DoesNotExist:
+            raise Exception("Error: model/instance pk combo does not exist")
+        except:
+            raise Exception("Error: when supplying model, instance \
+                            should be a valid pk for instance of that model")
 
     queryset = instance.__class__.objects.all()
     if filter_dict:

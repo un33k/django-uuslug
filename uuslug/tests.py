@@ -5,7 +5,7 @@ from django.test import TestCase
 # http://pypi.python.org/pypi/django-tools/
 #from django_tools.unittest_utils.print_sql import PrintQueries
 
-from uuslug import slugify
+from uuslug import slugify, uuslug
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
                            SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator)
@@ -187,4 +187,12 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
         self.assertEquals(obj.slug, "jaja_lol_mememe_3") # 17 is max_length
 
 
+class SlugFromModelTestCase(TestCase):
+    """Tests that a slug can be created from a model/instance pk combo""" 
+    
+    def testManager(self):
+        name = "Foo Bar"
+        obj = CoolSlug.objects.create(name=name)
+        slug = uuslug(name, instance=obj.pk, model=CoolSlug)
 
+        self.assertEquals(slug, 'foo-bar-1')
