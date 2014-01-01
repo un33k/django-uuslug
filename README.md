@@ -1,9 +1,12 @@
-Django Unique-Unicode Slug Application
+Django Uuslug
 ====================
 
-**A Django slugify application that guarantees uniqueness and handles unicode**
+**A Django slugify application that guarantees `Uniqueness` and handles `Unicode`**
 
-**Author:** Val Neekman, [ info@neekware.com, @vneekman]
+[![build-status-image-travis]][travis]
+[![build-status-image-fury]][fury]
+[![build-status-image-pypi]][pypi]
+
 
 Overview
 ========
@@ -34,11 +37,11 @@ Unicode Test
     txt = "This is a test ---"
     r = slugify(txt)
     self.assertEquals(r, "this-is-a-test")
-    
+
     txt = "This -- is a ## test ---"
     r = slugify(txt)
     self.assertEquals(r, "this-is-a-test")
-    
+
     txt = 'C\'est déjà l\'été.'
     r = slugify(txt)
     self.assertEquals(r, "cest-deja-lete")
@@ -108,10 +111,10 @@ Uniqueness Test
 
 
     Note: You can also specify the start number.
-    Example: 
+    Example:
         self.slug = uuslug(self.name, instance=self, start_no=2)
         # the second slug should start with "-2" instead of "-1"
-        
+
     name = "john"
     c = CoolSlug.objects.create(name=name)
     c.save()
@@ -159,66 +162,26 @@ To run the tests against the current environment:
     python manage.py test
 
 
-Changelog
-=========
+Running the tests
+====================
 
-1.0.0
------
-* Changed status to Production / Stable
+To run the tests against the current environment:
 
-0.2.0
------
-* Added an option to choose a non-dash separator
-
-0.1.0
------
-* Added the ability to truncate slugs + tests (feature request by: Juan Riaza of Spain)
-
-0.0.9
------
-* removed buildout dependency
-* splitted unicode slugify into its own python module
-
-0.8
------
-* ORM Optimization & Split of Unicode and Uniqueness into routines (credit: jedie @ github)
-
-0.1 - 0.7
------
-* history file created to track the changes
-* singleton "'" handling feature broke the testunit (fix pulled in from re_compile branch)
-* re cleanup (pulled in from re_compile branch)
-* up the version
-* updated the credit section from the README as the referred snippet no longer exists
-* include full name in setup.py
-* initial release
+    python manage.py test
 
 
 License
-=======
+====================
 
-Copyright © Val Neekman.
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without 
-modification, are permitted provided that the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this 
-list of conditions and the following disclaimer.
-Redistributions in binary form must reproduce the above copyright notice, this 
-list of conditions and the following disclaimer in the documentation and/or 
-other materials provided with the distribution.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Protected by ([BSD](LICENSE.md))
 
 
-Note: Django is a registered trademark of the Django Software Foundation.
+[build-status-image-travis]: https://secure.travis-ci.org/un33k/django-uuslug.png?branch=master
+[travis]: http://travis-ci.org/tomchristie/django-uuslug?branch=master
+
+[build-status-image-fury]: https://badge.fury.io/py/django-uuslug.png
+[fury]: http://badge.fury.io/py/django-uuslug
+
+[build-status-image-pypi]: https://pypip.in/d/django-uuslug/badge.png
+[pypi]: https://crate.io/packages/django-uuslug?version=latest
+
