@@ -11,8 +11,7 @@ Django Uuslug
 Overview
 ========
 
-A Django slugify application that guarantees uniqueness and handles unicode.
-UUSlug == (``U``nique + ``U``nicode) Slug
+In short: UUSlug == (``U``nique + ``U``nicode) Slug
 
 How to install
 ==================
@@ -156,14 +155,6 @@ Uniqueness Test
 
 Running the tests
 =================
-
-To run the tests against the current environment:
-
-    python manage.py test
-
-
-Running the tests
-====================
 
 To run the tests against the current environment:
 
