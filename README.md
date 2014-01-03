@@ -168,7 +168,7 @@ Released under ([BSD](LICENSE.md)).
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/django-uuslug.png?branch=master
-[travis]: http://travis-ci.org/tomchristie/django-uuslug?branch=master
+[travis]: http://travis-ci.org/un33k/django-uuslug?branch=master
 
 [build-status-image-fury]: https://badge.fury.io/py/django-uuslug.png
 [fury]: http://badge.fury.io/py/django-uuslug
