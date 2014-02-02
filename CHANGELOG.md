@@ -2,11 +2,13 @@
 
 Enhancement:
 
-  - Support Django 1.6.1
-  - Support for Python 3.x
+  - Added support for Django 1.6.1
+  - Added support for Python 3.x
 
 Misc:
-  - Dropped support for Django<1.4.10
+  - Dropped support for Django<=1.4.10
+  - Dropped support for Python 2.6
+
 
 ## 1.0.0
 
