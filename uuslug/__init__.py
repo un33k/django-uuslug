@@ -2,6 +2,7 @@
 
 __version__ = '1.0.0'
 
+from django.db.models.base import ModelBase
 from django.utils.encoding import smart_unicode
 from slugify import slugify as pyslugify
 
@@ -9,7 +10,7 @@ __all__ = ['slugify', 'uuslug']
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-'):
     """ Make a slug from a given text """
-    
+
     return smart_unicode(pyslugify(text, entities, decimal, hexadecimal, max_length, word_boundary, separator))
 
 
@@ -18,7 +19,7 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
 
     """ This method tries a little harder than django's django.template.defaultfilters.slugify. """
 
-    if hasattr(instance, 'objects'):
+    if isinstance(instance, ModelBase):
         raise Exception("Error: you must pass an instance to uuslug, not a model.")
 
     queryset = instance.__class__.objects.all()

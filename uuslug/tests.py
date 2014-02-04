@@ -5,7 +5,7 @@ from django.test import TestCase
 # http://pypi.python.org/pypi/django-tools/
 #from django_tools.unittest_utils.print_sql import PrintQueries
 
-from uuslug import slugify
+from uuslug import slugify, uuslug
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
                            SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator)
@@ -18,11 +18,11 @@ class SlugUnicodeTestCase(TestCase):
         txt = "This is a test ---"
         r = slugify(txt)
         self.assertEquals(r, "this-is-a-test")
-        
+
         txt = "This -- is a ## test ---"
         r = slugify(txt)
         self.assertEquals(r, "this-is-a-test")
-        
+
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEquals(r, "cest-deja-lete")
@@ -73,7 +73,7 @@ class SlugUnicodeTestCase(TestCase):
 
 class SlugUniqueTestCase(TestCase):
     """Tests for Slug - Unique"""
-    
+
     def test_manager(self):
         name = "john"
 
@@ -187,4 +187,8 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
         self.assertEquals(obj.slug, "jaja_lol_mememe_3") # 17 is max_length
 
 
+class ExeptionTestCase(TestCase):
+
+    def test_uuslug_checks_for_model_instance(self):
+        self.assertRaises(Exception, uuslug, 'test_slug', CoolSlug)
 
