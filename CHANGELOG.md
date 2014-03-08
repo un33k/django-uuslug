@@ -1,3 +1,9 @@
+## 1.0.2
+
+Enhancement:
+
+  - PEP8 Compliant
+
 ## 1.0.1
 
 Enhancement:
