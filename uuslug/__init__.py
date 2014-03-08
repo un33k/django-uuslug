@@ -5,9 +5,9 @@ __version__ = '1.0.2'
 from django.utils import six
 
 if six.PY3:
-    from django.utils.encoding import smart_unicode as smart_str
-else:
     from django.utils.encoding import smart_str
+else:
+    from django.utils.encoding import smart_unicode as smart_str
 
 from slugify import slugify as pyslugify
 
