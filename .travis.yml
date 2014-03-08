@@ -7,7 +7,6 @@ python:
 env:
   - DJANGO=1.5.5
   - DJANGO=1.6.2
-  - DJANGO=https://www.djangoproject.com/download/1.7a2/tarball/
 
 install:
   - pip install -q Django==$DJANGO
