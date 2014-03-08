@@ -10,6 +10,7 @@ from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
                            SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator)
 
+
 class SlugUnicodeTestCase(TestCase):
     """Tests for Slug - Unicode"""
 
@@ -18,11 +19,11 @@ class SlugUnicodeTestCase(TestCase):
         txt = "This is a test ---"
         r = slugify(txt)
         self.assertEquals(r, "this-is-a-test")
-        
+
         txt = "This -- is a ## test ---"
         r = slugify(txt)
         self.assertEquals(r, "this-is-a-test")
-        
+
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEquals(r, "cest-deja-lete")
@@ -71,9 +72,10 @@ class SlugUnicodeTestCase(TestCase):
         r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
         self.assertEquals(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
+
 class SlugUniqueTestCase(TestCase):
     """Tests for Slug - Unique"""
-    
+
     def test_manager(self):
         name = "john"
 
@@ -119,31 +121,30 @@ class SlugUniqueTestCase(TestCase):
             obj = AnotherSlug.objects.create(name=name)
         self.assertEquals(obj.slug, "foo-bar-3")
 
-
     def test_max_length(self):
         name = 'jaja---lol-méméméoo--a'
 
         obj = TruncatedSlug.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja-lol-mememeoo") # 17 is max_length
+        self.assertEquals(obj.slug, "jaja-lol-mememeoo")  # 17 is max_length
 
         obj = TruncatedSlug.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja-lol-mememe-2") # 17 is max_length
+        self.assertEquals(obj.slug, "jaja-lol-mememe-2")  # 17 is max_length
 
         obj = TruncatedSlug.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja-lol-mememe-3") # 17 is max_length
-
+        self.assertEquals(obj.slug, "jaja-lol-mememe-3")  # 17 is max_length
 
     def test_max_length_exact_word_boundry(self):
         name = 'jaja---lol-méméméoo--a'
 
         obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja-lol-mememeoo") # 19 is max_length
+        self.assertEquals(obj.slug, "jaja-lol-mememeoo")  # 19 is max_length
 
         obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja-lol-mememeoo-9") # 19 is max_length, start_no = 9
+        self.assertEquals(obj.slug, "jaja-lol-mememeoo-9")  # 19 is max_length, start_no = 9
 
         obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja-lol-mememeo-10") # 19 is max_length, readjust for "-10"
+        self.assertEquals(obj.slug, "jaja-lol-mememeo-10")  # 19 is max_length, readjust for "-10"
+
 
 class SlugUniqueDifferentSeparatorTestCase(TestCase):
     """Tests for Slug - Unique with different separator """
@@ -178,13 +179,10 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
         name = 'jaja---lol-méméméoo--a'
 
         obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja_lol_mememeoo") # 17 is max_length
+        self.assertEquals(obj.slug, "jaja_lol_mememeoo")  # 17 is max_length
 
         obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja_lol_mememe_2") # 17 is max_length
+        self.assertEquals(obj.slug, "jaja_lol_mememe_2")  # 17 is max_length
 
         obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
-        self.assertEquals(obj.slug, "jaja_lol_mememe_3") # 17 is max_length
-
-
-
+        self.assertEquals(obj.slug, "jaja_lol_mememe_3")  # 17 is max_length

@@ -25,6 +25,7 @@ classifiers = [
     'Topic :: Utilities'
 ]
 
+
 def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
