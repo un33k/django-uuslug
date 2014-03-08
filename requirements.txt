@@ -1,3 +1,1 @@
-Django>=1.5.1
 python-slugify>=0.0.4
-

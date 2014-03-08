@@ -1,3 +1,21 @@
+## 1.0.2
+
+Enhancement:
+
+  - PEP8 Compliant
+
+## 1.0.1
+
+Enhancement:
+
+  - Added support for Django 1.6.1
+  - Added support for Python 3.x
+
+Misc:
+  - Dropped support for Django<=1.4.10
+  - Dropped support for Python 2.6
+
+
 ## 1.0.0
 
 Enhancement:
