@@ -1,3 +1,12 @@
+## 1.0.3
+
+Enhancement:
+
+  - Support pypy
+  - Support Django 1.7
+  - More test cases
+  - Update slugify
+
 ## 1.0.2
 
 Enhancement:
