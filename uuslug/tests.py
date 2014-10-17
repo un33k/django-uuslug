@@ -3,7 +3,7 @@
 from django.test import TestCase
 
 # http://pypi.python.org/pypi/django-tools/
-#from django_tools.unittest_utils.print_sql import PrintQueries
+# from django_tools.unittest_utils.print_sql import PrintQueries
 
 from uuslug import slugify
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
@@ -23,6 +23,10 @@ class SlugUnicodeTestCase(TestCase):
         txt = "This -- is a ## test ---"
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
+
+        txt = '影師嗎'
+        r = slugify(txt)
+        self.assertEqual(r, "ying-shi-ma")
 
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
@@ -72,6 +76,14 @@ class SlugUnicodeTestCase(TestCase):
         r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
         self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
+        txt = "___This is a test ---"
+        r = slugify(txt)
+        self.assertEqual(r, "this-is-a-test")
+
+        txt = "___This is a test___"
+        r = slugify(txt)
+        self.assertEqual(r, "this-is-a-test")
+
 
 class SlugUniqueTestCase(TestCase):
     """Tests for Slug - Unique"""
@@ -79,14 +91,14 @@ class SlugUniqueTestCase(TestCase):
     def test_manager(self):
         name = "john"
 
-        #with PrintQueries("create first john"): # display the SQL queries
+        # with PrintQueries("create first john"): # display the SQL queries
         with self.assertNumQueries(2):
             # 1. query: SELECT test, if slug 'john' exists
             # 2. query: INSERT values
             obj = CoolSlug.objects.create(name=name)
         self.assertEqual(obj.slug, "john")
 
-        #with PrintQueries("create second john"): # display the SQL queries
+        # with PrintQueries("create second john"): # display the SQL queries
         with self.assertNumQueries(3):
             # 1. query: SELECT test, if slug 'john' exists
             # 2. query: SELECT test, if slug 'john-1' exists
@@ -97,14 +109,14 @@ class SlugUniqueTestCase(TestCase):
     def test_start_no(self):
         name = 'Foo Bar'
 
-        #with PrintQueries("create first 'Foo Bar'"): # display the SQL queries
+        # with PrintQueries("create first 'Foo Bar'"): # display the SQL queries
         with self.assertNumQueries(2):
             # 1. query: SELECT test, if slug 'foo-bar' exists
             # 2. query: INSERT values
             obj = AnotherSlug.objects.create(name=name)
         self.assertEqual(obj.slug, "foo-bar")
 
-        #with PrintQueries("create second 'Foo Bar'"): # display the SQL queries
+        # with PrintQueries("create second 'Foo Bar'"): # display the SQL queries
         with self.assertNumQueries(3):
             # 1. query: SELECT test, if slug 'foo-bar' exists
             # 2. query: SELECT test, if slug 'foo-bar-2' exists
@@ -112,7 +124,7 @@ class SlugUniqueTestCase(TestCase):
             obj = AnotherSlug.objects.create(name=name)
         self.assertEqual(obj.slug, "foo-bar-2")
 
-        #with PrintQueries("create third 'Foo Bar'"): # display the SQL queries
+        # with PrintQueries("create third 'Foo Bar'"): # display the SQL queries
         with self.assertNumQueries(4):
             # 1. query: SELECT test, if slug 'foo-bar' exists
             # 2. query: SELECT test, if slug 'foo-bar-2' exists
@@ -152,14 +164,14 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
     def test_manager(self):
         name = "john"
 
-        #with PrintQueries("create first john"): # display the SQL queries
+        # with PrintQueries("create first john"): # display the SQL queries
         with self.assertNumQueries(2):
             # 1. query: SELECT test, if slug 'john' exists
             # 2. query: INSERT values
             obj = CoolSlugDifferentSeparator.objects.create(name=name)
         self.assertEqual(obj.slug, "john")
 
-        #with PrintQueries("create second john"): # display the SQL queries
+        # with PrintQueries("create second john"): # display the SQL queries
         with self.assertNumQueries(3):
             # 1. query: SELECT test, if slug 'john' exists
             # 2. query: SELECT test, if slug 'john-1' exists
@@ -167,7 +179,7 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
             obj = CoolSlugDifferentSeparator.objects.create(name=name)
         self.assertEqual(obj.slug, "john_1")
 
-        #with PrintQueries("create third john"): # display the SQL queries
+        # with PrintQueries("create third john"): # display the SQL queries
         with self.assertNumQueries(4):
             # 1. query: SELECT test, if slug 'john' exists
             # 2. query: SELECT test, if slug 'john-1' exists

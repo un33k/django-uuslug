@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '1.0.2'
+__version__ = '1.0.3'
+
+default_app_config = 'uuslug.apps.AppConfig'
 
 from django.utils import six
 

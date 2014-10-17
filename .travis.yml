@@ -1,24 +1,38 @@
 language: python
+
 python:
-  - "2.7"
-  - "3.2"
+  - "3.4"
   - "3.3"
+  - "3.2"
+  - "2.7"
+  - "2.6"
+  - pypy
 
 env:
-  - DJANGO=1.5.5
-  - DJANGO=1.6.2
+  - DJANGO="django==1.7"
+  - DJANGO="django==1.6.7"
+  - DJANGO="django==1.4.15"
 
 install:
-  - pip install -q Django==$DJANGO
-  - pip install -q -r requirements.txt
+  - pip install $DJANGO
+  - pip install -r requirements.txt
+  - pip install -e .
   - pip install pep8
   - pip install https://github.com/un33k/pyflakes/tarball/master
-  - pip install -q -e .
 
 before_script:
   - "pep8 --exclude=migrations --ignore=E501,E225,E128 ."
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W uuslug; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W ipware; fi
+
+matrix:
+  exclude:
+   - python: "3.4"
+     env: DJANGO="django==1.4.15"
+   - python: "3.3"
+     env: DJANGO="django==1.4.15"
+   - python: "3.2"
+     env: DJANGO="django==1.4.15"
+   - python: "2.6"
+     env: DJANGO="django==1.7"
 
 script: python manage.py test
-
-

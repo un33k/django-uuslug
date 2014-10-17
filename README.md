@@ -41,6 +41,10 @@ Unicode Test
     r = slugify(txt)
     self.assertEqual(r, "this-is-a-test")
 
+    txt = '影師嗎'
+    r = slugify(txt)
+    self.assertEqual(r, "ying-shi-ma")
+
     txt = 'C\'est déjà l\'été.'
     r = slugify(txt)
     self.assertEqual(r, "cest-deja-lete")
@@ -88,6 +92,15 @@ Unicode Test
     txt = 'jaja---lol-méméméoo--a'
     r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
     self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
+
+    txt = "___This is a test ---"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
+    txt = "___This is a test___"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
 
 Uniqueness Test
 
