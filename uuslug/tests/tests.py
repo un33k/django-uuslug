@@ -61,11 +61,15 @@ class SlugUnicodeTestCase(TestCase):
         self.assertEqual(r, "jaja-lol-a")
 
         txt = 'jaja---lol-méméméoo--a'
-        r = slugify(txt, max_length=19, word_boundary=True)
+        r = slugify(txt, max_length=17, word_boundary=True)
         self.assertEqual(r, "jaja-lol-mememeoo")
 
         txt = 'jaja---lol-méméméoo--a'
-        r = slugify(txt, max_length=20, word_boundary=True)
+        r = slugify(txt, max_length=18, word_boundary=True)
+        self.assertEqual(r, "jaja-lol-mememeoo")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=19, word_boundary=True)
         self.assertEqual(r, "jaja-lol-mememeoo-a")
 
         txt = 'jaja---lol-méméméoo--a'
@@ -83,6 +87,22 @@ class SlugUnicodeTestCase(TestCase):
         txt = "___This is a test___"
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
+        self.assertEqual(r, "one-two-three")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=13, word_boundary=True, save_order=False)
+        self.assertEqual(r, "one-two-three")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=12, word_boundary=True, save_order=False)
+        self.assertEqual(r, "one-two-four")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
+        self.assertEqual(r, "one-two")
 
 
 class SlugUniqueTestCase(TestCase):
@@ -149,7 +169,7 @@ class SlugUniqueTestCase(TestCase):
         name = 'jaja---lol-méméméoo--a'
 
         obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEqual(obj.slug, "jaja-lol-mememeoo")  # 19 is max_length
+        self.assertEqual(obj.slug, "jaja-lol-mememeoo-a")  # 19 is max_length
 
         obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-mememeoo-9")  # 19 is max_length, start_no = 9

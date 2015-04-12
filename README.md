@@ -78,11 +78,15 @@ Unicode Test
     self.assertEqual(r, "jaja-lol-a")
 
     txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=19, word_boundary=True)
+    r = slugify(txt, max_length=17, word_boundary=True)
     self.assertEqual(r, "jaja-lol-mememeoo")
 
     txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=20, word_boundary=True)
+    r = slugify(txt, max_length=18, word_boundary=True)
+    self.assertEqual(r, "jaja-lol-mememeoo")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=19, word_boundary=True)
     self.assertEqual(r, "jaja-lol-mememeoo-a")
 
     txt = 'jaja---lol-méméméoo--a'
@@ -100,6 +104,22 @@ Unicode Test
     txt = "___This is a test___"
     r = slugify(txt)
     self.assertEqual(r, "this-is-a-test")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
+    self.assertEqual(r, "one-two-three")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=13, word_boundary=True, save_order=False)
+    self.assertEqual(r, "one-two-three")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=12, word_boundary=True, save_order=False)
+    self.assertEqual(r, "one-two-four")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
+    self.assertEqual(r, "one-two")
 
 
 Uniqueness Test
@@ -156,14 +176,14 @@ Uniqueness Test
         # Let's test it
         name = 'jaja---lol-méméméoo--a'
 
-        obj = SmartTruncatedSlug.objects.create(name=name)
-        print obj.slug # "jaja-lol-mememeoo"  --- where 19 is max_length (first slug, no duplicate yet)
+        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
+        self.assertEqual(obj.slug, "jaja-lol-mememeoo-a")  # 19 is max_length
 
-        obj = SmartTruncatedSlug.objects.create(name=name)
-        print obj.slug # "jaja-lol-mememeoo-9" --- where 19 is max_length, start_no = 9
+        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
+        self.assertEqual(obj.slug, "jaja-lol-mememeoo-9")  # 19 is max_length, start_no = 9
 
-        obj = SmartTruncatedSlug.objects.create(name=name)
-        print obj.slug # "jaja-lol-mememeo-10" -- where 19 is max_length, smart appending "-10"
+        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
+        self.assertEqual(obj.slug, "jaja-lol-mememeo-10")  # 19 is max_length, readjust for "-10"
 
 
 Running the tests
@@ -177,15 +197,14 @@ To run the tests against the current environment:
 License
 ====================
 
-Protected by ([BSD](LICENSE.md))
+Released under a ([BSD](LICENSE.md)) license.
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/django-uuslug.png?branch=master
-[travis]: http://travis-ci.org/tomchristie/django-uuslug?branch=master
+[travis]: http://travis-ci.org/un33k/django-uuslug?branch=master
 
 [build-status-image-fury]: https://badge.fury.io/py/django-uuslug.png
 [fury]: http://badge.fury.io/py/django-uuslug
 
 [build-status-image-pypi]: https://pypip.in/d/django-uuslug/badge.png
 [pypi]: https://crate.io/packages/django-uuslug?version=latest
-

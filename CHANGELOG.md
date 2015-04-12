@@ -1,3 +1,11 @@
+## 1.0.4
+
+Enhancement:
+
+  - Added option to save word order
+  - Added more tests
+  - Added Django 1.8 and dropped unsupported Django
+
 ## 1.0.3
 
 Enhancement:
