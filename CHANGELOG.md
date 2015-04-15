@@ -1,3 +1,9 @@
+## 1.0.5
+
+Fix:
+
+  - PyPI Cleanup
+
 ## 1.0.4
 
 Enhancement:
