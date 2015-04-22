@@ -3,8 +3,9 @@ Django Uuslug
 
 **A Django slugify application that guarantees `Uniqueness` and handles `Unicode`**
 
-[![build-status-image-travis]][travis]
 [![build-status-image-fury]][fury]
+[![build-status-image-coverage]][coverage]
+[![build-status-image-travis]][travis]
 [![build-status-image-pypi]][pypi]
 
 
@@ -208,3 +209,7 @@ Released under a ([BSD](LICENSE.md)) license.
 
 [build-status-image-pypi]: https://pypip.in/d/django-uuslug/badge.png
 [pypi]: https://crate.io/packages/django-uuslug?version=latest
+
+[build-status-image-coverage]: https://coveralls.io/repos/un33k/django-uuslug/badge.svg
+[coverage]: https://coveralls.io/r/un33k/django-uuslug
+
