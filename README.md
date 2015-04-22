@@ -4,8 +4,8 @@ Django Uuslug
 **A Django slugify application that guarantees `Uniqueness` and handles `Unicode`**
 
 [![build-status-image-fury]][fury]
-[![build-status-image-coverage]][coverage]
 [![build-status-image-travis]][travis]
+[![build-status-image-coverage]][coverage]
 [![build-status-image-pypi]][pypi]
 
 
