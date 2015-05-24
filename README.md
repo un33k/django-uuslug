@@ -26,6 +26,7 @@ How to install
         a. unzip the downloaded file
         b. cd into django-uuslug-* directory
         c. run python setup.py
+    5. pip install -e git+https://github.com/un33k/django-uuslug#egg=django-uuslug    
 
 How to use
 =================
