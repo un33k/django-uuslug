@@ -45,9 +45,8 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
     new_slug = slug
     counter = start_no
     while queryset.filter(**{slug_field: new_slug}).exists():
-        if max_length > 0:
-            if len(slug) + len(separator) + len(str(counter)) > max_length:
-                slug = slug[:max_length - len(slug) - len(separator) - len(str(counter))]
+        if len(slug) + len(separator) + len(str(counter)) > max_length:
+            slug = slug[:max_length - len(slug) - len(separator) - len(str(counter))]
         new_slug = "{}{}{}".format(slug, separator, counter)
         counter += 1
 
