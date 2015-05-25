@@ -8,7 +8,8 @@ from django.test import TestCase
 from uuslug import slugify
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
                            SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
-                           CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator)
+                           CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator,
+                           SmallSlug)
 
 
 class SlugUnicodeTestCase(TestCase):
@@ -218,3 +219,29 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
 
         obj = TruncatedSlugDifferentSeparator.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja_lol_mememe_3")  # 17 is max_length
+
+
+class SlugMaxLengthTestCase(TestCase):
+    """Tests for Slug - Max length minor than field length"""
+
+    def test_manager(self):
+        name = "john" * 51
+
+        with self.assertNumQueries(2):
+            obj = CoolSlug.objects.create(name=name)
+        self.assertEqual(obj.slug, name[:200])
+
+        with self.assertNumQueries(3):
+            obj = CoolSlug.objects.create(name=name)
+        self.assertEqual(obj.slug, name[:198] + "-1")
+
+    def test_max_length_bigger_than_field_slug(self):
+        name = 'jaja---lol-méméméoo--a-méméméoo'
+
+        obj = SmallSlug.objects.create(name=name)
+        # 10 is field max_length, 20 is uuslug function max_length
+        self.assertEqual(obj.slug, "jaja-lol-m")
+
+        # 10 is field max_length, 20 is uuslug function max_length
+        obj = SmallSlug.objects.create(name=name)
+        self.assertEqual(obj.slug, "jaja-lol-1")

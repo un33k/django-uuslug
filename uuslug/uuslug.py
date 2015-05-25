@@ -33,6 +33,11 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
     if instance.pk:
         queryset = queryset.exclude(pk=instance.pk)
 
+    # The slug max_length cannot be bigger than the max length of the field
+    slug_field_max_length = instance._meta.get_field(slug_field).max_length
+    if not max_length or max_length > slug_field_max_length:
+        max_length = slug_field_max_length
+
     slug = slugify(s, entities=entities, decimal=decimal, hexadecimal=hexadecimal,
                    max_length=max_length, word_boundary=word_boundary, separator=separator,
                    save_order=save_order)
@@ -40,9 +45,8 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
     new_slug = slug
     counter = start_no
     while queryset.filter(**{slug_field: new_slug}).exists():
-        if max_length > 0:
-            if len(slug) + len(separator) + len(str(counter)) > max_length:
-                slug = slug[:max_length - len(slug) - len(separator) - len(str(counter))]
+        if len(slug) + len(separator) + len(str(counter)) > max_length:
+            slug = slug[:max_length - len(slug) - len(separator) - len(str(counter))]
         new_slug = "{}{}{}".format(slug, separator, counter)
         counter += 1
 
