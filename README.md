@@ -31,9 +31,10 @@ How to install
 How to use
 =================
 
-Unicode Test
-
    ```python
+
+    ####### Unicode Test #######
+
     from uuslug import slugify
 
     txt = "This is a test ---"
@@ -143,17 +144,14 @@ Unicode Test
     txt = 'the quick brown fox jumps over the lazy dog in a hurry'
     r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
     self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
-    ```
 
 
-Uniqueness Test
-
-   ```python
-    # Override your object's save method with something like this (models.py)
+    ####### Uniqueness Test #######
 
     from django.db import models
     from uuslug import uuslug
 
+    # Override your object's save method with something like this (models.py)
     class CoolSlug(models.Model):
         name = models.CharField(max_length=100)
         slug = models.CharField(max_length=200)
@@ -164,7 +162,6 @@ Uniqueness Test
         def save(self, *args, **kwargs):
             self.slug = uuslug(self.name, instance=self)
             super(CoolSlug, self).save(*args, **kwargs)
-
 
     # Note: You can also specify the start number.
     # Example:
