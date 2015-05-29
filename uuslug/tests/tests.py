@@ -9,7 +9,7 @@ from uuslug import slugify
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
                            SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator,
-                           SmallSlug)
+                           AutoTruncatedSlug)
 
 
 class SlugUnicodeTestCase(TestCase):
@@ -104,6 +104,26 @@ class SlugUnicodeTestCase(TestCase):
         txt = 'one two three four five'
         r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
         self.assertEqual(r, "one-two")
+
+        txt = 'this has a stopword'
+        r = slugify(txt, stopwords=['stopword'])
+        self.assertEqual(r, 'this-has-a')
+
+        txt = 'the quick brown fox jumps over the lazy dog'
+        r = slugify(txt, stopwords=['the'])
+        self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+
+        txt = 'Foo A FOO B foo C'
+        r = slugify(txt, stopwords=['foo'])
+        self.assertEqual(r, 'a-b-c')
+
+        txt = 'Foo A FOO B foo C'
+        r = slugify(txt, stopwords=['FOO'])
+        self.assertEqual(r, 'a-b-c')
+
+        txt = 'the quick brown fox jumps over the lazy dog in a hurry'
+        r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
+        self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
 
 
 class SlugUniqueTestCase(TestCase):
@@ -222,7 +242,7 @@ class SlugUniqueDifferentSeparatorTestCase(TestCase):
 
 
 class SlugMaxLengthTestCase(TestCase):
-    """Tests for Slug - Max length minor than field length"""
+    """Tests for Slug - Max length less than field length"""
 
     def test_manager(self):
         name = "john" * 51
@@ -235,13 +255,13 @@ class SlugMaxLengthTestCase(TestCase):
             obj = CoolSlug.objects.create(name=name)
         self.assertEqual(obj.slug, name[:198] + "-1")
 
-    def test_max_length_bigger_than_field_slug(self):
+    def test_max_length_greater_than_field_slug(self):
         name = 'jaja---lol-méméméoo--a-méméméoo'
 
-        obj = SmallSlug.objects.create(name=name)
+        obj = AutoTruncatedSlug.objects.create(name=name)
         # 10 is field max_length, 20 is uuslug function max_length
         self.assertEqual(obj.slug, "jaja-lol-m")
 
         # 10 is field max_length, 20 is uuslug function max_length
-        obj = SmallSlug.objects.create(name=name)
+        obj = AutoTruncatedSlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-1")

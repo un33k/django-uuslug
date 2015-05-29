@@ -26,7 +26,7 @@ How to install
         a. unzip the downloaded file
         b. cd into django-uuslug-* directory
         c. run python setup.py
-    5. pip install -e git+https://github.com/un33k/django-uuslug#egg=django-uuslug    
+    5. pip install -e git+https://github.com/un33k/django-uuslug#egg=django-uuslug
 
 How to use
 =================
@@ -36,6 +36,14 @@ Unicode Test
     from uuslug import slugify
 
     txt = "This is a test ---"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
+    txt = "___This is a test ---"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
+    txt = "___This is a test___"
     r = slugify(txt)
     self.assertEqual(r, "this-is-a-test")
 
@@ -55,13 +63,13 @@ Unicode Test
     r = slugify(txt)
     self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
 
-    txt = 'Компьютер'
-    r = slugify(txt)
-    self.assertEqual(r, "kompiuter")
-
     txt = 'jaja---lol-méméméoo--a'
     r = slugify(txt)
     self.assertEqual(r, "jaja-lol-mememeoo-a")
+
+    txt = 'Компьютер'
+    r = slugify(txt)
+    self.assertEqual(r, "kompiuter")
 
     txt = 'jaja---lol-méméméoo--a'
     r = slugify(txt, max_length=9)
@@ -99,14 +107,6 @@ Unicode Test
     r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
     self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
-    txt = "___This is a test ---"
-    r = slugify(txt)
-    self.assertEqual(r, "this-is-a-test")
-
-    txt = "___This is a test___"
-    r = slugify(txt)
-    self.assertEqual(r, "this-is-a-test")
-
     txt = 'one two three four five'
     r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
     self.assertEqual(r, "one-two-three")
@@ -122,6 +122,27 @@ Unicode Test
     txt = 'one two three four five'
     r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
     self.assertEqual(r, "one-two")
+
+    txt = 'this has a stopword'
+    r = slugify(txt, stopwords=['stopword'])
+    self.assertEqual(r, 'this-has-a')
+
+    txt = 'the quick brown fox jumps over the lazy dog'
+    r = slugify(txt, stopwords=['the'])
+    self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+
+    txt = 'Foo A FOO B foo C'
+    r = slugify(txt, stopwords=['foo'])
+    self.assertEqual(r, 'a-b-c')
+
+    txt = 'Foo A FOO B foo C'
+    r = slugify(txt, stopwords=['FOO'])
+    self.assertEqual(r, 'a-b-c')
+
+    txt = 'the quick brown fox jumps over the lazy dog in a hurry'
+    r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
+    self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+
 
 
 Uniqueness Test
@@ -139,7 +160,6 @@ Uniqueness Test
             return self.name
 
         def save(self, *args, **kwargs):
-            # self.slug = uuslug(self.name, instance=self, separator="_") # optional non-dash separator
             self.slug = uuslug(self.name, instance=self)
             super(CoolSlug, self).save(*args, **kwargs)
 
@@ -152,19 +172,31 @@ Uniqueness Test
     name = "john"
     c = CoolSlug.objects.create(name=name)
     c.save()
-    print c.slug # => "john"
+    print(c.slug) # => "john"
 
     c1 = CoolSlug.objects.create(name=name)
     c1.save()
-    print c1.slug # => "john-1"
+    print(c1.slug) # => "john-1"
 
     c2 = CoolSlug.objects.create(name=name)
     c2.save()
-    print c2.slug # => "john-2"
+    print(c2.slug) # => "john-2"
 
 
-    # If you need truncation of your slug, here is an example
+    # If you need truncation of your slug to exact length, here is an example
     class SmartTruncatedSlug(models.Model):
+        name = models.CharField(max_length=19)
+        slug = models.CharField(max_length=10)
+
+        def __unicode__(self):
+            return self.name
+
+        def save(self, *args, **kwargs):
+            self.slug = uuslug(self.name, instance=self, max_length=10)
+            super(SmartTruncatedSlug, self).save(*args, **kwargs)
+
+    # If you need automatic truncation of your slug, here is an example
+    class AutoTruncatedSlug(models.Model):
         name = models.CharField(max_length=19)
         slug = models.CharField(max_length=19)
 
@@ -172,20 +204,8 @@ Uniqueness Test
             return self.name
 
         def save(self, *args, **kwargs):
-            self.slug = uuslug(self.name, instance=self, start_no=9, max_length=19, word_boundary=True)
+            self.slug = uuslug(self.name, instance=self)
             super(SmartTruncatedSlug, self).save(*args, **kwargs)
-
-        # Let's test it
-        name = 'jaja---lol-méméméoo--a'
-
-        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEqual(obj.slug, "jaja-lol-mememeoo-a")  # 19 is max_length
-
-        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEqual(obj.slug, "jaja-lol-mememeoo-9")  # 19 is max_length, start_no = 9
-
-        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
-        self.assertEqual(obj.slug, "jaja-lol-mememeo-10")  # 19 is max_length, readjust for "-10"
 
 
 Running the tests
