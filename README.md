@@ -33,6 +33,7 @@ How to use
 
 Unicode Test
 
+   ```python
     from uuslug import slugify
 
     txt = "This is a test ---"
@@ -142,12 +143,13 @@ Unicode Test
     txt = 'the quick brown fox jumps over the lazy dog in a hurry'
     r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
     self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
-
+    ```
 
 
 Uniqueness Test
 
-    Override your object's save method with something like this (models.py)
+   ```python
+    # Override your object's save method with something like this (models.py)
 
     from django.db import models
     from uuslug import uuslug
@@ -164,8 +166,8 @@ Uniqueness Test
             super(CoolSlug, self).save(*args, **kwargs)
 
 
-    Note: You can also specify the start number.
-    Example:
+    # Note: You can also specify the start number.
+    # Example:
         self.slug = uuslug(self.name, instance=self, start_no=2)
         # the second slug should start with "-2" instead of "-1"
 
@@ -206,7 +208,7 @@ Uniqueness Test
         def save(self, *args, **kwargs):
             self.slug = uuslug(self.name, instance=self)
             super(SmartTruncatedSlug, self).save(*args, **kwargs)
-
+    ```
 
 Running the tests
 =================
