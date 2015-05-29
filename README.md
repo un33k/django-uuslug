@@ -205,7 +205,7 @@ How to use
         def save(self, *args, **kwargs):
             self.slug = uuslug(self.name, instance=self)
             super(SmartTruncatedSlug, self).save(*args, **kwargs)
-    ```
+   ```
 
 Running the tests
 =================
