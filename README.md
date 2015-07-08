@@ -3,9 +3,10 @@ Django Uuslug
 
 **A Django slugify application that guarantees `Uniqueness` and handles `Unicode`**
 
-[![build-status-image-travis]][travis]
-[![build-status-image-fury]][fury]
-[![build-status-image-pypi]][pypi]
+[![status-image]][status-link]
+[![version-image]][version-link]
+[![coverage-image]][coverage-link]
+[![download-image]][download-link]
 
 
 Overview
@@ -200,11 +201,14 @@ License
 Released under a ([BSD](LICENSE.md)) license.
 
 
-[build-status-image-travis]: https://secure.travis-ci.org/un33k/django-uuslug.png?branch=master
-[travis]: http://travis-ci.org/un33k/django-uuslug?branch=master
+[status-image]: https://secure.travis-ci.org/un33k/django-uuslug.png?branch=master
+[status-link]: http://travis-ci.org/un33k/django-uuslug?branch=master
 
-[build-status-image-fury]: https://badge.fury.io/py/django-uuslug.png
-[fury]: http://badge.fury.io/py/django-uuslug
+[version-image]: https://img.shields.io/pypi/v/django-uuslug.svg
+[version-link]: https://pypi.python.org/pypi/django-uuslug
 
-[build-status-image-pypi]: https://pypip.in/d/django-uuslug/badge.png
-[pypi]: https://crate.io/packages/django-uuslug?version=latest
+[coverage-image]: https://coveralls.io/repos/un33k/django-uuslug/badge.svg
+[coverage-link]: https://coveralls.io/r/un33k/django-uuslug
+
+[download-image]: https://img.shields.io/pypi/dm/django-uuslug.svg
+[download-link]: https://pypi.python.org/pypi/django-uuslug
