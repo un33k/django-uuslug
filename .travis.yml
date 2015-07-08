@@ -9,7 +9,7 @@ python:
   - pypy
 
 env:
-  - DJANGO="django==1.8"
+  - DJANGO="django==1.8.2"
   - DJANGO="django==1.7.7"
   - DJANGO="django==1.4.20"
 
@@ -36,7 +36,7 @@ matrix:
    - python: "2.6"
      env: DJANGO="django==1.7.7"
    - python: "2.6"
-     env: DJANGO="django==1.8"
+     env: DJANGO="django==1.8.2"
 
 script:
    - coverage run --source=uuslug manage.py test

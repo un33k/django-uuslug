@@ -1,3 +1,9 @@
+## 1.1.6
+
+Maintenance:
+
+  - Up version python-slugify, fixed broken status links on github
+
 ## 1.1.5
 
 Enhancement:
