@@ -1,3 +1,16 @@
+## 1.1.5
+
+Enhancement:
+
+  - Ability to remove `stopwords` from string
+  - Ability to auto truncate string to match model field's max_length
+
+## 1.0.5
+
+Fix:
+
+  - PyPI Cleanup
+
 ## 1.0.4
 
 Enhancement:
