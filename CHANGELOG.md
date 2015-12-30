@@ -1,3 +1,8 @@
+## 1.1.7
+
+Enhancement:
+  - Fix: False alarm on model/instance check. (konradhalas)
+
 ## 1.1.6
 
 Maintenance:
