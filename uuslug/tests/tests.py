@@ -5,7 +5,7 @@ from django.test import TestCase
 # http://pypi.python.org/pypi/django-tools/
 # from django_tools.unittest_utils.print_sql import PrintQueries
 
-from uuslug import slugify
+from uuslug import slugify, uuslug
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
                            SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator,
@@ -265,3 +265,8 @@ class SlugMaxLengthTestCase(TestCase):
         # 10 is field max_length, 20 is uuslug function max_length
         obj = AutoTruncatedSlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-1")
+
+
+class ModelInstanceExeptionTestCase(TestCase):
+    def test_uuslug_checks_for_model_instance(self):
+        self.assertRaises(Exception, uuslug, 'test_slug', CoolSlug)

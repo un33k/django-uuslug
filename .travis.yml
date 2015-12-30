@@ -1,17 +1,16 @@
+sudo: false
 language: python
 
 python:
+  - "3.5"
   - "3.4"
   - "3.3"
-  - "3.2"
   - "2.7"
-  - "2.6"
   - pypy
 
 env:
-  - DJANGO="django==1.8.2"
-  - DJANGO="django==1.7.7"
-  - DJANGO="django==1.4.20"
+  - DJANGO="django==1.9"
+  - DJANGO="django==1.8.7"
 
 install:
   - pip install $DJANGO
@@ -27,19 +26,10 @@ before_script:
 
 matrix:
   exclude:
-   - python: "3.4"
-     env: DJANGO="django==1.4.20"
    - python: "3.3"
-     env: DJANGO="django==1.4.20"
-   - python: "3.2"
-     env: DJANGO="django==1.4.20"
-   - python: "2.6"
-     env: DJANGO="django==1.7.7"
-   - python: "2.6"
-     env: DJANGO="django==1.8.2"
+     env: DJANGO="django==1.9"
 
-script:
-   - coverage run --source=uuslug manage.py test
+script: coverage run --source=uuslug manage.py test
 
 after_success:
-   - coveralls
+  coveralls

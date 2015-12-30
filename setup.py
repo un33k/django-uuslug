@@ -14,7 +14,7 @@ url = 'https://github.com/un33k/django-uuslug'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'BSD'
-install_requires = ['python-slugify>=1.1.3']
+install_requires = ['python-slugify>=1.1.4']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Environment :: Web Environment',
@@ -63,8 +63,7 @@ if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist upload")
     args = {'version': get_version(package)}
     print("You probably want to also tag the version now:")
-    print("  git tag -a %(version)s -m 'version %(version)s'" % args)
-    print("  git push --tags")
+    print("  git tag -a %(version)s -m 'version %(version)s' && git push --tags" % args)
     sys.exit()
 
 
