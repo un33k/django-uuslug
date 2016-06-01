@@ -217,29 +217,31 @@ Django Parler
 ====================
 For translatable slugs using Django Parler, a language code needs to be passed to the uuslug function. Here is an example model overriding the save method:
 
-	from django.utils.translation import ugettext_lazy as _
+   ```python
+   
+    from django.utils.translation import ugettext_lazy as _
     from parler.models import TranslatableModel, TranslatedFields
-    
+
     from uuslug import uuslug
-    
+
 
     class MyTranslatableModel(TranslatableModel):
         ...
         
         translations = TranslatedFields(
-     		name = models.CharField(_('Name'), max_length=100),
-			slug = models.SlugField(_('slug'), max_length=255, blank=True, allow_unicode=True),
-			meta = {'unique_together': (('language_code', 'slug'),)}
-		)
+            name = models.CharField(_('Name'), max_length=100),
+            slug = models.SlugField(_('slug'), max_length=255, blank=True, allow_unicode=True),
+            meta = {'unique_together': (('language_code', 'slug'),)}
+        )
 
         def save(self, *args, **kwargs):
-	    	super(MyTranslatableModel, self).save(*args, **kwargs)
-		    for lang in self.get_available_languages():
-			    self.set_current_language(lang)
-			    if not self.slug and self.name:
-				    self.slug = uuslug(self.name, instance=self, language_code=lang)
-    		self.save_translations()
-
+            super(MyTranslatableModel, self).save(*args, **kwargs)
+            for lang in self.get_available_languages():
+                self.set_current_language(lang)
+                if not self.slug and self.name:
+                    self.slug = uuslug(self.name, instance=self, language_code=lang)
+            self.save_translations()
+   ```
 
 License
 ====================
