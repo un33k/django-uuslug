@@ -213,6 +213,27 @@ To run the tests against the current environment:
 
     python manage.py test
 
+Django Parler
+====================
+For translatable slugs using Django Parler, a language code needs to be passed to the uuslug function. Here is an example overriding the save function:
+
+    from parler.models import TranslatableModel, TranslatedFields
+
+    class MyTranslatableModel(TranslatableModel):
+        ...
+        translations = TranslatedFields(
+		    slug = models.SlugField(_('slug'), max_length=255, blank=True, allow_unicode=True),
+		    meta = {'unique_together': (('language_code', 'slug'),)}
+	    )
+
+        def save(self, *args, **kwargs):
+	    	super(MyTranslatableModel, self).save(*args, **kwargs)
+		    for lang in self.get_available_languages():
+			    self.set_current_language(lang)
+			    if not self.slug and self.name:
+				    self.slug = uuslug(self.name, instance=self, language_code=lang)
+    		self.save_translations()
+
 
 License
 ====================
