@@ -215,16 +215,22 @@ To run the tests against the current environment:
 
 Django Parler
 ====================
-For translatable slugs using Django Parler, a language code needs to be passed to the uuslug function. Here is an example overriding the save function:
+For translatable slugs using Django Parler, a language code needs to be passed to the uuslug function. Here is an example model overriding the save method:
 
+	from django.utils.translation import ugettext_lazy as _
     from parler.models import TranslatableModel, TranslatedFields
+    
+    from uuslug import uuslug
+    
 
     class MyTranslatableModel(TranslatableModel):
         ...
+        
         translations = TranslatedFields(
-		    slug = models.SlugField(_('slug'), max_length=255, blank=True, allow_unicode=True),
-		    meta = {'unique_together': (('language_code', 'slug'),)}
-	    )
+     		name = models.CharField(_('Name'), max_length=100),
+			slug = models.SlugField(_('slug'), max_length=255, blank=True, allow_unicode=True),
+			meta = {'unique_together': (('language_code', 'slug'),)}
+		)
 
         def save(self, *args, **kwargs):
 	    	super(MyTranslatableModel, self).save(*args, **kwargs)
