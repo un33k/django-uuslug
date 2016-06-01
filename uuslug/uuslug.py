@@ -41,15 +41,13 @@ def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
         try:
             meta = instance._parler_meta._get_extension_by_field(slug_field)
             slug_field_max_length = instance._get_translated_model(
-                    language_code, meta=meta
-                )._meta.get_field(slug_field).max_length
-            
+                language_code, meta=meta
+            )._meta.get_field(slug_field).max_length
         except AttributeError:
             raise Exception("Error: This instance is not from a Django Parler TranslatableModel. Remove language_code parameter and try again.")
 
     else:
         slug_field_max_length = instance._meta.get_field(slug_field).max_length
-
 
     if not max_length or max_length > slug_field_max_length:
         max_length = slug_field_max_length
