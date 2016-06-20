@@ -1,3 +1,9 @@
+## 1.1.8
+
+Maintenance:
+
+  - Up version python-slugify
+
 ## 1.1.7
 
 Enhancement:
