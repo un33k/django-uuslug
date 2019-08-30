@@ -1,4 +1,4 @@
-from .uuslug import *
+from .uuslug import *  # noqa
 
 __author__ = 'Val Neekman @ Neekware Inc. [@vneekman]'
 __description__ = 'A Python slugify application that also handles Unicode'

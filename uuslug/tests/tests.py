@@ -7,7 +7,7 @@ from django.test import TestCase
 
 from uuslug import slugify, uuslug
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
-                           SmartTruncatedSlug, SmartTruncatedExactWordBoundrySlug,
+                           SmartTruncatedExactWordBoundrySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator,
                            AutoTruncatedSlug)
 

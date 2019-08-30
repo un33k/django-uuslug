@@ -1,36 +1,42 @@
 sudo: false
 language: python
+dist: xenial
 
 python:
-  - "3.5"
-  - "3.4"
-  - "3.3"
+  - "3.7"
+  - "3.6"
   - "2.7"
   - pypy
+  - pypy3
 
 env:
-  - DJANGO="django==1.10.6"
-  - DJANGO="django==1.9.12"
-  - DJANGO="django==1.8.17"
+  # Django 2.2.x
+  - DJANGO="django>=2.2,<2.3"
+  # Django 2.1.x
+  - DJANGO="django>=2.1,<2.2"
+  # Django 1.11.x
+  - DJANGO="django>=1.11,<1.12"
 
 install:
   - pip install $DJANGO
   - pip install -r requirements.txt
   - pip install -e .
-  - pip install pep8
-  - pip install https://github.com/un33k/pyflakes/tarball/master
-  - pip install coveralls
+  - pip install flake8 coverage coveralls
 
 before_script:
-  - "pep8 --exclude=migrations --ignore=E501,E225,E128 ."
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W uuslug; fi
+  - "flake8 uuslug"
 
 matrix:
   exclude:
-   - python: "3.3"
-     env: DJANGO="django==1.10.6"
-   - python: "3.3"
-     env: DJANGO="django==1.9.12"
+   - python: "2.7"
+     env: DJANGO="django>=2.2,<2.3"
+   - python: "2.7"
+     env: DJANGO="django>=2.1,<2.2"
+   # pypy is the Python 2.7
+   - python: "pypy"
+     env: DJANGO="django>=2.2,<2.3"
+   - python: "pypy"
+     env: DJANGO="django>=2.1,<2.2"
 
 script: coverage run --source=uuslug manage.py test
 
