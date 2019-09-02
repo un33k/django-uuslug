@@ -1,4 +1,7 @@
 include LICENSE
-include manage.py pep8.sh
-include *.md requirements.txt
+include README.md
+include CHANGELOG.md
+include manage.py
+include pep8.sh
+include requirements.txt
  

@@ -238,3 +238,9 @@ X.Y.Z Version
 
 [download-image]: https://img.shields.io/pypi/dm/django-uuslug.svg
 [download-link]: https://pypi.python.org/pypi/django-uuslug
+
+
+Sponsors
+====================
+
+[Surge](https://github.com/surgeforward)
