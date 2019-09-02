@@ -1,0 +1,2 @@
+include manage.py pep8.sh
+include *.md requirements.txt
