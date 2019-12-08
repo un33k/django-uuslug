@@ -1,3 +1,9 @@
+## 1.2.0
+
+Maintenance:
+
+  - Up version python-slugify, remove support for old Django versions
+  
 ## 1.1.8
 
 Maintenance:
