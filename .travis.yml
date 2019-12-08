@@ -10,7 +10,7 @@ python:
 
 env:
   - DJANGO="django==3.0"
-  - DJANGO="django==2.2.28"
+  - DJANGO="django==2.2.8"
   - DJANGO="django==1.11.26"
 
 install:
@@ -30,11 +30,11 @@ matrix:
     - python: "3.5"
       env: DJANGO="django==3.0"
     - python: "2.7"
-      env: DJANGO="django==2.2.28"
+      env: DJANGO="django==2.2.8"
     - python: "2.7"
       env: DJANGO="django==3.0"
     - python: pypy
-      env: DJANGO="django==2.2.28"
+      env: DJANGO="django==2.2.8"
     - python: pypy
       env: DJANGO="django==3.0"
 
