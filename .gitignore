@@ -56,6 +56,11 @@ docs/_build/
 # PyBuilder
 target/
 
-# Dev env
+# VSCode
+/.vscode/
+
 .env/
-.vscode/
+
+# Pipenv
+Pipfile
+Pipfile.lock

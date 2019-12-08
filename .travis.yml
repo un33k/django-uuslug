@@ -3,42 +3,43 @@ language: python
 dist: xenial
 
 python:
-  - "3.7"
+  - "3.5"
   - "3.6"
+  - "3.7"
   - "2.7"
   - pypy
   - pypy3
 
 env:
-  # Django 2.2.x
-  - DJANGO="django>=2.2,<2.3"
-  # Django 2.1.x
-  - DJANGO="django>=2.1,<2.2"
-  # Django 1.11.x
-  - DJANGO="django>=1.11,<1.12"
+  - DJANGO="django==3.0"
+  - DJANGO="django==2.2.8"
+  - DJANGO="django==1.11.26"
 
 install:
   - pip install $DJANGO
   - pip install -r requirements.txt
+  - pip install -r requirements_dev.txt
   - pip install -e .
-  - pip install flake8 coverage coveralls
+  - pip install https://github.com/un33k/pyflakes/tarball/master
+  - pip install coveralls
 
 before_script:
-  - "flake8 uuslug"
+  - "pycodestyle --exclude=migrations --ignore=E501,E225,E128 ."
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W uuslug; fi
 
 matrix:
   exclude:
-   - python: "2.7"
-     env: DJANGO="django>=2.2,<2.3"
-   - python: "2.7"
-     env: DJANGO="django>=2.1,<2.2"
-   # pypy is the Python 2.7
-   - python: "pypy"
-     env: DJANGO="django>=2.2,<2.3"
-   - python: "pypy"
-     env: DJANGO="django>=2.1,<2.2"
+    - python: "3.5"
+      env: DJANGO="django==3.0"
+    - python: "2.7"
+      env: DJANGO="django==2.2.8"
+    - python: "2.7"
+      env: DJANGO="django==3.0"
+    - python: pypy
+      env: DJANGO="django==2.2.8"
+    - python: pypy
+      env: DJANGO="django==3.0"
 
 script: coverage run --source=uuslug manage.py test
 
-after_success:
-  coveralls
+after_success: coveralls
