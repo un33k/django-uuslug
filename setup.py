@@ -12,7 +12,7 @@ package = 'uuslug'
 python_requires = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 here = os.path.abspath(os.path.dirname(__file__))
 
-requires = []
+requires = ['python-slugify>=5.0.1']
 test_requirements = []
 
 about = {}
