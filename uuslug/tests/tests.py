@@ -7,7 +7,7 @@ from django.test import TestCase
 
 from uuslug import slugify, uuslug
 from uuslug.models import (CoolSlug, AnotherSlug, TruncatedSlug,
-                           SmartTruncatedExactWordBoundrySlug,
+                           SmartTruncatedExactWordBoundarySlug,
                            CoolSlugDifferentSeparator, TruncatedSlugDifferentSeparator,
                            AutoTruncatedSlug)
 
@@ -186,16 +186,16 @@ class SlugUniqueTestCase(TestCase):
         obj = TruncatedSlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-mememe-3")  # 17 is max_length
 
-    def test_max_length_exact_word_boundry(self):
+    def test_max_length_exact_word_boundary(self):
         name = 'jaja---lol-méméméoo--a'
 
-        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
+        obj = SmartTruncatedExactWordBoundarySlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-mememeoo-a")  # 19 is max_length
 
-        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
+        obj = SmartTruncatedExactWordBoundarySlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-mememeoo-9")  # 19 is max_length, start_no = 9
 
-        obj = SmartTruncatedExactWordBoundrySlug.objects.create(name=name)
+        obj = SmartTruncatedExactWordBoundarySlug.objects.create(name=name)
         self.assertEqual(obj.slug, "jaja-lol-mememeo-10")  # 19 is max_length, readjust for "-10"
 
 

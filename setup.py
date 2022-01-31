@@ -14,20 +14,19 @@ url = 'https://github.com/un33k/django-uuslug'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'BSD'
-install_requires = ['python-slugify>=1.2.0']
+install_requires = ['python-slugify>=5.0.0']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
-    'Framework :: Django :: 1.11',
-    'Framework :: Django :: 2.1',
-    'Framework :: Django :: 2.2',
     'Intended Audience :: Developers',
+    'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',
-    'Operating System :: POSIX',
+    'Operating System :: OS Independent',
     'Programming Language :: Python',
-    'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
 ]
 
 

@@ -1,3 +1,2 @@
-Django>=1.8
-python-slugify>=1.2.1
-six>=1.13.0
+Django>=2.2.26
+python-slugify>=5.0.0

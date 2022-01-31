@@ -1,10 +1,6 @@
 from django.db.models.base import ModelBase
 from slugify import slugify as pyslugify
-import six
-if six.PY3:
-    from django.utils.encoding import smart_str
-else:
-    from django.utils.encoding import smart_unicode as smart_str
+from django.utils.encoding import smart_str
 
 __all__ = ['slugify', 'uuslug']
 
