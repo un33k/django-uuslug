@@ -47,7 +47,7 @@ jobs:
           pycodestyle --exclude=migrations,tests --ignore=E501,E241,E225,E128 .
       - name: Run test
         run: |
-          coverage run --source=ipware manage.py test
+          coverage run --source=uuslug manage.py test
       - name: Coveralls
         run: coveralls --service=github
         env:
