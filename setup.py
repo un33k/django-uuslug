@@ -5,7 +5,7 @@ import sys
 
 from codecs import open
 from shutil import rmtree
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 package = 'uuslug'
@@ -55,9 +55,8 @@ setup(
     author=about['__author__'],
     author_email=about['__author_email__'],
     url=about['__url__'],
-    packages=[package],
+    packages=find_packages(),
     package_data={'': ['LICENSE']},
-    package_dir={'uuslug': 'uuslug'},
     include_package_data=True,
     python_requires=python_requires,
     install_requires=requires,
