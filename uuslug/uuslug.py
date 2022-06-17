@@ -11,8 +11,9 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0,
     Make a slug from a given text.
     """
 
-    return smart_str(pyslugify(text, entities, decimal, hexadecimal, max_length,
-        word_boundary, separator, save_order, stopwords))
+    return smart_str(pyslugify(text, entities=entities, decimal=decimal, hexadecimal=hexadecimal,
+                               max_length=max_length, word_boundary=word_boundary,
+                               separator=separator, save_order=save_order, stopwords=stopwords))
 
 
 def uuslug(s, instance, entities=True, decimal=True, hexadecimal=True,
